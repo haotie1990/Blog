@@ -6,4 +6,4 @@
 
 * [Android](/Android/Android目录索引.md)
 * [Java](/Java/Java目录索引.md)
-* [Othrer]()
+* [Othrer](/Other/Other目录索引.md)
