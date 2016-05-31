@@ -32,7 +32,7 @@ Android的基本主要包括以下内容：
 ### 2.1设计模式
 刚开始做开发的时候，没觉得设计模式这个事情有多么的重要，但现在做三年的开发过程中走了许多弯路过后，越来发现设计模式的重要性。
 
-![image](http://dl.iteye.com/upload/attachment/0083/1179/57a92d42-4d84-3aa9-a8b9-63a0b02c2c36.jpg)
+![image](../Image/20160531160354.jpg)
 
 设计模式最好要结合实际的应用来学习，这部分学习[《Android源码设计模式解析与实战》](https://github.com/simple-android-framework/android_design_patterns_analysis)
 
@@ -44,7 +44,7 @@ Android经历这么多年的发展已经产生出来许许多多的开发库，�
 
 * [AndroidArchitectureCollection](https://github.com/CameloeAnthony/AndroidArchitectureCollection)
  
-![image](https://segmentfault.com/image?src=http://i.imgur.com/xJnVaP4.png&objectId=1190000005073746&token=3e69530a35fa73bec0c097bc005c78b4)
+![image](../Image/63306330393.jpg)
 
 ### 2.3 Android系统Framework
 
