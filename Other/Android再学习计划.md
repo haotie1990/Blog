@@ -18,7 +18,7 @@ Java基本包括以下内容：
 * IO
 * 多线程
 * 网络
-以上的内容通过学习《疯狂的Java讲义》来学习强化。一些其他资源[深入浅出ClassLoader](http://ifeve.com/classloader/comment-page-1/#comment-26937)、[Java网络教程](http://ifeve.com/java-network/)、[Java NIO 系列](http://ifeve.com/java-nio-all/)、[Java IO](http://ifeve.com/java-io-3/)、[Java 并发概念汇总](http://www.letiantian.me/2015-05-27-java-concurrency-summary/)、[并发网系列文章](http://ifeve.com/paper-set/)
+以上的内容通过学习《疯狂的Java讲义》来学习强化。一些其他资源[深入浅出ClassLoader](http://ifeve.com/classloader)、[Java网络教程](http://ifeve.com/java-network/)、[Java NIO 系列](http://ifeve.com/java-nio-all/)、[Java IO](http://ifeve.com/java-io-3/)、[Java 并发概念汇总](http://www.letiantian.me/2015-05-27-java-concurrency-summary/)、[并发网系列文章](http://ifeve.com/paper-set/)
 
 
 Android的基本主要包括以下内容：
