@@ -18,13 +18,7 @@ Java基本包括以下内容：
 * IO
 * 多线程
 * 网络
-以上的内容通过学习《疯狂的Java讲义》来学习强化。一些其他资源
-[深入浅出ClassLoader](http://ifeve.com/classloader/comment-page-1/#comment-26937)
-[Java网络教程](http://ifeve.com/java-network/)
-[Java NIO 系列](http://ifeve.com/java-nio-all/)
-[Java IO](http://ifeve.com/java-io-3/)
-[Java 并发概念汇总](http://www.letiantian.me/2015-05-27-java-concurrency-summary/)
-[并发网系列文章](http://ifeve.com/paper-set/)
+以上的内容通过学习《疯狂的Java讲义》来学习强化。一些其他资源[深入浅出ClassLoader](http://ifeve.com/classloader/comment-page-1/#comment-26937)、[Java网络教程](http://ifeve.com/java-network/)、[Java NIO 系列](http://ifeve.com/java-nio-all/)、[Java IO](http://ifeve.com/java-io-3/)、[Java 并发概念汇总](http://www.letiantian.me/2015-05-27-java-concurrency-summary/)、[并发网系列文章](http://ifeve.com/paper-set/)
 
 
 Android的基本主要包括以下内容：
@@ -94,7 +88,11 @@ Android经历这么多年的发展已经产生出来许许多多的开发库，�
 
 # 参考资料
 <https://segmentfault.com/a/1190000005073746?hmsr=toutiao.io&utm_medium=toutiao.io&utm_source=toutiao.io>
+
 <https://segmentfault.com/a/1190000005059402>
+
 <http://www.cnblogs.com/maowang1991/archive/2013/04/15/3023236.html>
+
 <http://gityuan.com/2016/04/24/how-to-study-android/>
+
 <http://blog.csdn.net/codeemperor/article/details/51004189>
