@@ -216,7 +216,46 @@ if(stickyEvent != null) {
 
 ### 2.7 订阅函数优先级和取消事件传递
 
-### 2.8 订阅索引
+#### 2.7.1 订阅函数优先级
+
+如果同一个事件有多个订阅函数，那么可以为订阅函数设置优先级。但需要注意的是，只有订阅函数在**同一个线程模式**下，其优先级属性才会起作用，并且`priority`值越大，则会越早接收到事件，默认`priority`为0。
+
+```java
+@Subscribe(threadMode = ThreadMode.MAIN, priority = 1)
+public void onHandleEventMain(MessageEvent event){
+    if(DEBUG) Log.i(TAG, "onHandleEventMain");
+    if(DEBUG) Log.i(TAG,"Current Thread:"+Thread.currentThread().getName());
+    if(DEBUG) Log.i(TAG,"Message:"+event.getMessage());
+    Toast.makeText(this,"onHandleEventMain:"+"Current Thead:"+Thread.currentThread().getName()+" Message:"+event.getMessage(),
+            Toast.LENGTH_LONG).show();
+}
+
+@Subscribe(threadMode = ThreadMode.MAIN, priority = 2)
+public void onHandleEventMain2(MessageEvent event){
+    if(DEBUG) Log.i(TAG, "onHandleEventMain2");
+    if(DEBUG) Log.i(TAG,"Current Thread:"+Thread.currentThread().getName());
+    if(DEBUG) Log.i(TAG,"Message:"+event.getMessage());
+    Toast.makeText(this,"onHandleEventMain2:"+"Current Thead:"+Thread.currentThread().getName()+" Message:"+event.getMessage(),
+            Toast.LENGTH_LONG).show();
+}
+```
+
+#### 2.7.2 事件取消
+
+你也可以在事件订阅函数中使用函数`cancelEventDelivery(Object event)`取消事件的传递，但一般情况下，取消事件传递会在优先级较高的订阅函数中进行。同时取消事件必须在线程模式是`ThreadMode.POSTING`的订阅函数中进行。
+
+```java
+// Called in the same thread (default)
+@Subscribe
+public void onEvent(MessageEvent event){
+	// Process the event
+	…
+
+	EventBus.getDefault().cancelEventDelivery(event) ;
+}
+```
+
+### 2.8 订阅索引加速
 
 ### 2.9 代码混淆
 
