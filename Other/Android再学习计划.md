@@ -30,6 +30,7 @@ Android的基本主要包括以下内容：
 ## 2. 进阶开发
 
 ### 2.1设计模式
+
 刚开始做开发的时候，没觉得设计模式这个事情有多么的重要，但现在做三年的开发过程中走了许多弯路过后，越来发现设计模式的重要性。
 
 ![image](../Image/20160531160354.jpg)
@@ -48,6 +49,8 @@ Android经历这么多年的发展已经产生出来许许多多的开发库，�
 
 ### 2.3 Android系统Framework
 
+Android系统的核心功能都在其Framework层，有人说一个Android开发人员的分水岭就在于其对Android内核的了解程度。这部分可以看任玉刚的《Android开发艺术探索》
+
 #### 2.3.1 App及Activity的生命周期及启动过程
 
 #### 2.3.2 Handler机制
@@ -57,6 +60,12 @@ Android经历这么多年的发展已经产生出来许许多多的开发库，�
 #### 2.3.4 touch事件传递机制 
 
 #### 2.3.5 Binder机制
+
+Binder可以毫不夸张的说是Android系统的最核心之一，整个系统的进程间通信调度几乎都有它的影子，因此了解Android系统的的Binder机制已经成为一名Android开发人员的必备技能。手里关于Android内核的书有两本，但有时候看书也会觉得枯燥，也可以看看别人写的文章加深理解。这里准备四篇文章：
+
+* [Binder学习指南](http://www.jianshu.com/p/af2993526daf)
+* [Binder牌胶水](http://www.jianshu.com/p/3d053abba04b)
+* [Android Binder设计与实现](http://blog.csdn.net/universus/article/details/6211589)
 
 ### 2.4 Java及Android开发技巧
 
