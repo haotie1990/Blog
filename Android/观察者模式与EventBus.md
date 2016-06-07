@@ -167,6 +167,53 @@ EventBus eventBus = EventBus.builder().build();
 
 ### 2.6 Sticky Events
 
+`Sticky Events`可以翻译为粘性事件，其指事件发送后会被缓存起来。EventBus可以在保存最新的某一类型的`Sticky`事件，后续的`Sticky`事件会替换之前缓存的事件。当事件订阅函数被`@Subscriber(sticky = true)`标注，那么当其被注册的时候，就会收到已经缓存的`Sticky`事件。这意味着，在注册之前被发布的事件也能被接收到。
+
+发布`Sticky`事件
+
+```java
+EventBus.getDefault().postSticky(new SimpleEvent("A sticky event "+ System.currentTimeMillis()));
+```
+订阅`Sticky`事件
+
+```java
+@Override
+protected void onStart() {
+    super.onStart();
+    EventBus.getDefault().register(this);
+}
+
+@Override
+protected void onStop() {
+    EventBus.getDefault().unregister(this);
+    mUnbinder.unbind();
+    super.onStop();
+}
+    
+@Subscribe(sticky = true, threadMode = ThreadMode.MAIN)
+public void onEvent(SimpleEvent event){
+    Toast.makeText(this, "Current Event:"+event.getEvent()+"/"+getClass().getName(), Toast.LENGTH_SHORT).show();
+}
+```
+
+被缓存的`Sticky`事件同样也可以被查询和取消，如果需要获取特定的`Sticky`事件，可以使用`getStickyEvent(Class<T> eventType)`函数。如果不想`Sticky`事件继续传递下去，可以使用`removeStickyEvent(Class<T> eventType)`和`removeStickyEvent(Object event)`删除事件。
+
+```java
+MessageEvent stickyEvent = EventBus.getDefault().getStickyEvent(MessageEvent.class);
+// Better check that an event was actually posted before
+if(stickyEvent != null) {
+    // "Consume" the sticky event
+    EventBus.getDefault().removeStickyEvent(stickyEvent);
+    // Now do something with it
+}
+
+MessageEvent stickyEvent = EventBus.getDefault().removeStickyEvent(MessageEvent.class);
+// Better check that an event was actually posted before
+if(stickyEvent != null) {
+    // Now do something with it
+}
+```
+
 ### 2.7 订阅函数优先级和取消事件传递
 
 ### 2.8 订阅索引
