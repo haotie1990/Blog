@@ -145,6 +145,26 @@ public void onHandleEventAysc(MessageEvent event){
 
 ### 2.5 定制EventBus3
 
+默认情况下，使用EventBus使用`EventBus.getDefault()`获得一个单例的全局实例。同时EventBus也支持定制来满足需求。EventBus使用`EventBusBuilder `来定制EventBus。
+
+```java
+EventBus eventBus = EventBus.builder().build();
+```
+部分定制函数：
+* `logNoSubscriberMessages(boolean logNoSubscriberMessages)` 事件没有被订阅的异常打印开关，默认`true`
+* `logSubscriberExceptions(boolean logSubscriberExceptions)` 订阅函数的异常打印开关，默认`true`
+* `sendNoSubscriberEvent(boolean sendNoSubscriberEvent)` 事件没有被订阅发布`NoSubscriberEvent`的开关，默认`true`
+* `sendSubscriberExceptionEvent(boolean sendSubscriberExceptionEvent)` 订阅函数异常事件的发布开关，默认`true`
+* `eventInheritance` 事件继承，默认发送子类事件，订阅父类事件的函数也会收到
+* `throwSubscriberException(boolean throwSubscriberException)` 订阅函数是否抛出异常，默认`false`
+* `executorService(java.util.concurrent.ExecutorService executorService)` 为EventBus提供自定义的线程池
+* `addIndex(SubscriberInfoIndex index)` 
+* `installDefaultEventBus()`
+* `skipMethodVerificationFor(java.lang.Class<?> clazz)`
+* `strictMethodVerification(boolean strictMethodVerification)`
+
+[EventBusBuilder Class Doc](http://greenrobot.org/files/eventbus/javadoc/3.0/org/greenrobot/eventbus/EventBusBuilder.html)
+
 ### 2.6 Sticky Events
 
 ### 2.7 订阅函数优先级和取消事件传递
@@ -163,3 +183,7 @@ public void onHandleEventAysc(MessageEvent event){
 *  [EventBus](http://greenrobot.org/eventbus/)
 
 * [维基百科观察者模式](https://en.wikipedia.org/wiki/Observer_pattern)
+
+* [Android 中 EventBus 的使用（2）：缓存事件](http://android.jobbole.com/82049/)
+
+* [老司机教你 “飙” EventBus 3](https://segmentfault.com/a/1190000005089229)
