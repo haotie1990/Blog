@@ -15,6 +15,8 @@
 
 ### 1.3 观察者模式的UML
 
+![观察者模式UML图](../Image/Observer-patterm.png)
+
 ### 1.4 Android源码中的观察者模式
 
 ## 2.EventBus
@@ -89,11 +91,57 @@ EventBus3可以设置订阅函数的执行线程，通过在注解`@Subscribe`�
 
 #### 2.4.1 ThreadMode.POSTING
 
+`ThreadMode.POSTING`模式是默认的线程模式，其特点是事件订阅和事件发布在运行在同一个线程中。当事件被发布的同时，所有的事件订阅函数即被调用，其避免了线程切换的开销。因此，不应该在事件订阅函数中做耗时的操作，否则会阻塞发布事件的函数。
+
+```java
+@Subscribe(threadMode = ThreadMode.POSTING)
+public void onHandleEvent(MessageEvent event){
+        if(DEBUG) Log.i(TAG, "onHandleEvent");
+        if(DEBUG) Log.i(TAG,"Current Thread:"+Thread.currentThread().getName());
+        if(DEBUG) Log.i(TAG,"Message:"+event.getMessage());
+    }
+```
+
 #### 2.4.2 ThreadMode.MAIN
+
+`ThreadMode.MAIN`模式代表事件订阅函数将在Android的`main`线程（UI线程）中被调用。如果事件发布在`main`线程中，则事件订阅函数将被直接调用，此时与`ThreadMode.POSTING`没有区别，那么事件的处理也应该及时的完成返回，避免阻塞`main`线程造成`ANR`。
+
+```java
+@Subscribe(threadMode = ThreadMode.MAIN)
+public void onHandleEventMain(MessageEvent event){
+        if(DEBUG) Log.i(TAG, "onHandleEventMain");
+        if(DEBUG) Log.i(TAG,"Current Thread:"+Thread.currentThread().getName());
+        if(DEBUG) Log.i(TAG,"Message:"+event.getMessage());
+        Toast.makeText(this,"onHandleEventMain:"+"Current Thead:"+Thread.currentThread().getName()+" Message:"+event.getMessage(),
+            Toast.LENGTH_LONG).show();
+    }
+```
 
 #### 2.4.3 ThreadMode.BACKGROUND
 
+如果订阅函数使用`ThreadMode.BACKGROUND`，则其将被在后台线程中调用。这里的`background thread`主要区别于`main thread`，如果事件发布不在`main`线程中，则事件订阅函数将被调用在于事件发布同一个线程中。如果事件发布在`main`线程中，EventBus将创建**一个**单独的后台线程来处理所有的事件，因此如果有多个同一个事件的订阅函数采用此模式，应避免在订阅函数中做耗时的处理，造成后台线程阻塞，其他订阅函数无法被调用。
+
+```java
+@Subscribe(threadMode = ThreadMode.BACKGROUND)
+public void onHandleEventBackground(MessageEvent event){
+        if(DEBUG) Log.i(TAG, "onHandleEventBackground");
+        if(DEBUG) Log.i(TAG,"Current Thread:"+Thread.currentThread().getName());
+        if(DEBUG) Log.i(TAG,"Message:"+event.getMessage());
+    }
+```
+
 #### 2.4.4 ThreadMode.ASYNC
+
+当需要事件发布与事件订阅异步的时候，可以采用`ThreadMode.ASYNC`的模式。事件订阅函数将在独立的线程中被调用，事件发布也不必等待事件订阅函数执行完毕才返回。因此如果需要在事件订阅函数中做一些耗时或阻塞的操作（例如：网络、IO、数据库）则可以采用此线程模式。为了避免同时创建大量的线程，EventBus会创建一个线程池来完成所有事件的异步处理。
+
+```java
+@Subscribe(threadMode = ThreadMode.ASYNC)
+public void onHandleEventAysc(MessageEvent event){
+        if(DEBUG) Log.i(TAG, "onHandleEventAysc");
+        if(DEBUG) Log.i(TAG,"Current Thread:"+Thread.currentThread().getName());
+        if(DEBUG) Log.i(TAG,"Message:"+event.getMessage());
+    }
+```
 
 ### 2.5 定制EventBus3
 
@@ -113,3 +161,5 @@ EventBus3可以设置订阅函数的执行线程，通过在注解`@Subscribe`�
 * [Android源码设计模式解析与实战](http://product.dangdang.com/23802445.html)
 
 *  [EventBus](http://greenrobot.org/eventbus/)
+
+* [维基百科观察者模式](https://en.wikipedia.org/wiki/Observer_pattern)
