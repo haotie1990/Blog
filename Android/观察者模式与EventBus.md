@@ -257,6 +257,51 @@ public void onEvent(MessageEvent event){
 
 ### 2.8 订阅索引加速
 
+在EventBus3以前采用的是反射方式，其效率很高，但事件订阅函数的命名会受到限制。在EventBus3虽然采用了注解的形式，但也提供了订阅函数的索引功能，用于加速注册过程。如果需要使用索引加速，那么需要配置`android-apt-plugin`，步骤如下
+
+1. 打开工程项目的`build.gradle`，引入`apt`编译插件
+
+```groovy
+buildscript {
+    repositories {
+        jcenter()
+    }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:2.1.0'
+        classpath 'com.neenbedankt.gradle.plugins:android-apt:1.8'
+        // NOTE: Do not place your application dependencies here; they belong
+        // in the individual module build.gradle files
+    }
+}
+```
+
+2. 打开`app`下的`build.gradle`，在`app`下使用`apt`插件，并设置生成索引的包名和类名
+
+```groovy
+apply plugin: 'com.neenbedankt.android-apt'
+
+dependencies {
+    compile 'org.greenrobot:eventbus:3.0.0'
+    apt 'org.greenrobot:eventbus-annotation-processor:3.0.1'
+}
+
+apt {
+    arguments {
+        eventBusIndex "com.gky.ebd.EventBusIndex"
+    }
+}
+```
+设置好`build.gradle`后，编译生成索引类，编译成功后就会在目录`\ProjectName\app\build\generated\source\apt\PakageName\`下发现生成的索引类。通过如下方式可以指定EventBus，也可以设置默认的EventBus。
+
+```java
+EventBus eventBus = EventBus.builder().addIndex(new EventBusIndex()).build();
+```
+```java
+EventBus.builder().addIndex(new EventBusIndex()).installDefaultEventBus();
+// Now the default instance uses the given index. Use it like this:
+EventBus eventBus = EventBus.getDefault();
+```
+
 ### 2.9 代码混淆
 
 ### 2.10 EventBus中的AsyncExecutor
