@@ -17,8 +17,6 @@
 
 ![观察者模式UML图](../Image/Observer-patterm.png)
 
-### 1.4 Android源码中的观察者模式
-
 ## 2.EventBus
 
 ### 2.1 EventBus简介
@@ -158,10 +156,9 @@ EventBus eventBus = EventBus.builder().build();
 * `eventInheritance` 事件继承，默认发送子类事件，订阅父类事件的函数也会收到
 * `throwSubscriberException(boolean throwSubscriberException)` 订阅函数是否抛出异常，默认`false`
 * `executorService(java.util.concurrent.ExecutorService executorService)` 为EventBus提供自定义的线程池
-* `addIndex(SubscriberInfoIndex index)` 
-* `installDefaultEventBus()`
-* `skipMethodVerificationFor(java.lang.Class<?> clazz)`
-* `strictMethodVerification(boolean strictMethodVerification)`
+* `addIndex(SubscriberInfoIndex index)` 设置订阅索引
+* `installDefaultEventBus()` 配置生成默认的EventBus
+* `ignoreGeneratedIndex(boolean ignoreGeneratedIndex)` 强制使用反射方式，即使生成索引
 
 [EventBusBuilder Class Doc](http://greenrobot.org/files/eventbus/javadoc/3.0/org/greenrobot/eventbus/EventBusBuilder.html)
 
@@ -304,8 +301,23 @@ EventBus eventBus = EventBus.getDefault();
 
 ### 2.9 代码混淆
 
-### 2.10 EventBus中的AsyncExecutor
+EventBus的作者提供了代码混淆的规则，如下：
 
+```groovy
+-keepattributes *Annotation*
+-keepclassmembers class ** {
+    @org.greenrobot.eventbus.Subscribe <methods>;
+}
+-keep enum org.greenrobot.eventbus.ThreadMode { *; }
+
+# Only required if you use AsyncExecutor
+-keepclassmembers class * extends org.greenrobot.eventbus.util.ThrowableFailureEvent {
+    <init>(java.lang.Throwable);
+}
+```
+# 参考代码
+
+[GitHub上的代码](https://github.com/haotie1990/EventBus3Demo)
 
 # 参考
 
