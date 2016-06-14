@@ -251,6 +251,23 @@ public class UserInfoFragment extends Fragment{
 }
 ```
 
+#### 3.7 代码混淆
+
+```groovy
+#ButterKnife
+-keep class butterknife.** { *; }
+-dontwarn butterknife.internal.**
+-keep class **$$ViewBinder { *; }
+
+-keepclasseswithmembernames class * {
+    @butterknife.* <fields>;
+}
+
+-keepclasseswithmembernames class * {
+    @butterknife.* <methods>;
+}
+```
+
 # 参考
 
 * [Android源码设计模式解析与实战](http://product.dangdang.com/23802445.html)
