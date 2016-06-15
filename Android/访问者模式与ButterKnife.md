@@ -268,6 +268,412 @@ public class UserInfoFragment extends Fragment{
 }
 ```
 
+### 4. ButterKnife源码解析
+
+现在使用注解的第三方Android库越来越多，按照注解`@Retention`的处理时期，一版可以分为三种：
+
+* `@RetentionPolicy.SOURCE`：源码注解，例如`@Override`，`@SupporWarnings`。这类注解在编译成功后就不会再起作用，并且不会出现在.class文件中
+* `@RetentionPolicy.CLASS`：编译时注解，默认的注解方式，会最终保留在.class文件中，但无法再运行时获取。
+* `@RetentionPolicy.RUNTIME`：运行时注解，会保留在.class文件中，这类注解可以用反射API中的`getAnnotations()`获取到。
+
+这里面，运行时注解由于要用到反射会来带性能问题而被诟病，编译注解则可以依赖APT(Annotation Processing Tools)在编译时编译器会检查`AbstractProcessor`的子类，并且调用该类的`process`函数，然后将添加了注解的所有元素都传递到`process`函数中，使得开发人员可以处理这些注解甚至生成新的代码文件，同时让编译器将生成的代码文件和原代码文件一起编译。编写注解处理器的核心是`AnnotationProcessorFactory`和`AnnotationProcessor`两个接口，后者表示注解处理器，前者则是为某些注解类型创建注解处理器的工厂。
+
+#### 4.1 ButterKnifeProcessor
+
+已经知道编译时注解的核心是继承`AbstractProcessor`类并覆写`process`函数来处理所有的注解。在ButterKnife中继承`AbstractProcessor`的类是`ButterKnifeProcessor`,那么我们直接来看这个类实现。
+
+```java
+@AutoService(Processor.class)
+public final class ButterKnifeProcessor extends AbstractProcessor {
+//--
+@Override public boolean process(Set<? extends TypeElement> elements, RoundEnvironment env) {
+    Map<TypeElement, BindingClass> targetClassMap = findAndParseTargets(env);
+
+    for (Map.Entry<TypeElement, BindingClass> entry : targetClassMap.entrySet()) {
+      TypeElement typeElement = entry.getKey();
+      BindingClass bindingClass = entry.getValue();
+
+      try {
+        bindingClass.brewJava().writeTo(filer);
+      } catch (IOException e) {
+        error(typeElement, "Unable to write view binder for type %s: %s", typeElement,
+            e.getMessage());
+      }
+    }
+
+    return true;
+  }
+//--  
+}
+```
+首先会获取一个类型元素和注解类信息的`map`，用于后面写入不同的类文件。这里需要说明对于编译器来说，代码中的元素结构是基本不变的，例如，组成代码的基本元素有包，类，函数，字段，类型参数，变量。JDK中为这些元素定义了一个基类，也就是Element类，它有如下几个子类：
+
+* [`PackageElement`](http://grepcode.com/file/repository.grepcode.com/java/root/jdk/openjdk/8u40-b25/javax/lang/model/element/PackageElement.java#PackageElement)：包元素，包含了某个包下的信息
+* [`TypeElement`](http://grepcode.com/file/repository.grepcode.com/java/root/jdk/openjdk/8u40-b25/javax/lang/model/element/TypeElement.java#TypeElement)：类型元素，包含了一个类或接口定义的字段和函数
+* [`ExecutableElement`](http://grepcode.com/file/repository.grepcode.com/java/root/jdk/openjdk/8u40-b25/javax/lang/model/element/ExecutableElement.java#ExecutableElement)：可执行元素，代表了函数类型的元素
+* [`VariableElement`](http://grepcode.com/file/repository.grepcode.com/java/root/jdk/openjdk/8u40-b25/javax/lang/model/element/VariableElement.java#VariableElement)：变量元素
+* [`TypeParameterElement`](http://grepcode.com/file/repository.grepcode.com/java/root/jdk/openjdk/8u40-b25/javax/lang/model/element/TypeParameterElement.java#TypeParameterElement)：类型参数元素
+
+与`TypeElement`成对的`BindingClass`类则是封装了使用ButterKnife注解的类的信息，包括字段和方法。后面的`bindingClass.brewJava().writeTo(filer);`就是使用其中包含的信息生成新的类文件。
+
+**findAndParseTargets**函数即使解析所有的注解的方法。
+
+```java
+private Map<TypeElement, BindingClass> findAndParseTargets(RoundEnvironment env) {
+    Map<TypeElement, BindingClass> targetClassMap = new LinkedHashMap<>();
+    Set<TypeElement> erasedTargetNames = new LinkedHashSet<>();
+
+    // Process each @BindArray element.
+    // Process each @BindBitmap element.
+    // Process each @BindBool element.
+    // Process each @BindColor element.
+    // Process each @BindDimen element.
+    // Process each @BindDrawable element.
+    // Process each @BindInt element.
+    // Process each @BindString element.
+
+    // Process each @BindView element.
+    // 获取所有使用@BindView注解的元素
+    for (Element element : env.getElementsAnnotatedWith(BindView.class)) {
+      // 判断元素的信息都是正确的    
+      if (!SuperficialValidation.validateElement(element)) continue;
+      try {
+        parseBindView(element, targetClassMap, erasedTargetNames);
+      } catch (Exception e) {
+        logParsingError(element, BindView.class, e);
+      }
+    }
+
+    // Process each @BindViews element.
+    // Process each annotation that corresponds to a listener.
+
+    // Try to find a parent binder for each.
+    for (Map.Entry<TypeElement, BindingClass> entry : targetClassMap.entrySet()) {
+      TypeElement parentType = findParentType(entry.getKey(), erasedTargetNames);
+      if (parentType != null) {
+        BindingClass bindingClass = entry.getValue();
+        BindingClass parentBindingClass = targetClassMap.get(parentType);
+        bindingClass.setParent(parentBindingClass);
+      }
+    }
+
+    return targetClassMap;
+}
+```
+
+我们在这里只先看对`@BindView`注解的解析，解析处理的关键在函数`parseBindView`中。
+
+```java
+private void parseBindView(Element element, Map<TypeElement, BindingClass> targetClassMap,
+      Set<TypeElement> erasedTargetNames) {
+    TypeElement enclosingElement = (TypeElement) element.getEnclosingElement();
+
+    // Start by verifying common generated code restrictions.
+    // 验证元素的修饰符，不可以是`private`或`static`
+    // 验证元素不可以是非类对象
+    // 验证元素内部类不可以私有
+    // 验证元素不可是`android`或`java`包下的类，即ButterKnife不可以在Android Framework和JDK中使用
+    boolean hasError = isInaccessibleViaGeneratedCode(BindView.class, "fields", element)
+        || isBindingInWrongPackage(BindView.class, element);
+
+    // Verify that the target type extends from View.
+    // 判断元素是否继承自View
+    TypeMirror elementType = element.asType();
+    if (elementType.getKind() == TypeKind.TYPEVAR) {
+      TypeVariable typeVariable = (TypeVariable) elementType;
+      elementType = typeVariable.getUpperBound();
+    }
+    if (!isSubtypeOfType(elementType, VIEW_TYPE) && !isInterface(elementType)) {
+      error(element, "@%s fields must extend from View or be an interface. (%s.%s)",
+          BindView.class.getSimpleName(), enclosingElement.getQualifiedName(),
+          element.getSimpleName());
+      hasError = true;
+    }
+
+    if (hasError) {
+      return;
+    }
+
+    // Assemble information on the field.
+    // 获得注解标注的值，在这里就是View ID
+    int id = element.getAnnotation(BindView.class).value();
+
+
+    BindingClass bindingClass = targetClassMap.get(enclosingElement);
+    if (bindingClass != null) {
+      ViewBindings viewBindings = bindingClass.getViewBinding(id);
+      // 判断被注解的元素是否已经被绑定过，并放入到BindingClass中
+      // 如果被注解元素已经处理过，则会报错
+      if (viewBindings != null && viewBindings.getFieldBinding() != null) {
+        FieldViewBinding existingBinding = viewBindings.getFieldBinding();
+        error(element, "Attempt to use @%s for an already bound ID %d on '%s'. (%s.%s)",
+            BindView.class.getSimpleName(), id, existingBinding.getName(),
+            enclosingElement.getQualifiedName(), element.getSimpleName());
+        return;
+      }
+    } else {
+      // 根据元素信息创建一个BindingClass实例
+      bindingClass = getOrCreateTargetClass(targetClassMap, enclosingElement);
+    }
+
+    String name = element.getSimpleName().toString();
+    TypeName type = TypeName.get(elementType);
+    boolean required = isFieldRequired(element);
+
+    // 创建一个被注解View的FieldViewBinding实例，并放入其所在类的BindingClass对象中
+    FieldViewBinding binding = new FieldViewBinding(name, type, required);
+    bindingClass.addField(id, binding);
+
+    // Add the type-erased version to the valid binding targets set.
+    erasedTargetNames.add(enclosingElement);
+  }
+```
+这里面关键是创建`BindingClass`类和`FieldViewBinding`类，并将`FieldViewBinding`类的实例放入`BindingClass`类对象中去。`FieldViewBinding`类用于绑定变量View(与之对应的还有Drawable、Bitmap等)，它记录了绑定元素的变量名、类名。在`BindingClass`中会有一个对应的`View ID`与`FieldViewBinding`绑定，因此如果发现`BindingClass`类对象中已经存在View ID对应的`FieldViewBinding`就会报错。
+
+在`parseBindView`中还有一个重要的方法是`getOrCreateTargetClass`，其方法即解析元素获取到类名，包名，然后构建一个`BindingClass`对象。其中的`BINDING_CLASS_SUFFIX`是一个`$$ViewBinder`的字符串，ButterKnife生成的辅助类都是以此为后缀。
+
+```java
+private BindingClass getOrCreateTargetClass(Map<TypeElement, BindingClass> targetClassMap,
+      TypeElement enclosingElement) {
+    BindingClass bindingClass = targetClassMap.get(enclosingElement);
+    if (bindingClass == null) {
+      TypeName targetType = TypeName.get(enclosingElement.asType());
+      if (targetType instanceof ParameterizedTypeName) {
+        targetType = ((ParameterizedTypeName) targetType).rawType;
+      }
+
+      String packageName = getPackageName(enclosingElement);
+      ClassName classFqcn = ClassName.get(packageName,
+          getClassName(enclosingElement, packageName) + BINDING_CLASS_SUFFIX);
+
+      boolean isFinal = enclosingElement.getModifiers().contains(Modifier.FINAL);
+
+      bindingClass = new BindingClass(targetType, classFqcn, isFinal);
+      targetClassMap.put(enclosingElement, bindingClass);
+    }
+    return bindingClass;
+  }
+```
+
+现在可以回到`process`方法，解析所有的注解后，生成一个`TypeElement`和`BindingClass`的键值对map,其中`TypeElement`是对使用注解的类的类类型元素的信息，`BindingClass`则是应用ButterKnife注解的类的封装。接下来就是调用`bindingClass.brewJava.write(filer)`生成相应的辅助类。在这里生成辅助类的使用的是`javapoet`，square公司开发的生成.java文件的工具。那么进入`brewJava`方法中。
+
+```java
+JavaFile brewJava() {
+    TypeSpec.Builder result = TypeSpec.classBuilder(className)
+        .addModifiers(PUBLIC)
+        .addTypeVariable(TypeVariableName.get("T", ClassName.bestGuess(targetClass)));
+    if (isFinal) {
+      result.addModifiers(Modifier.FINAL);
+    }
+
+    if (hasParentBinding()) {
+      result.superclass(ParameterizedTypeName.get(ClassName.bestGuess(parentBinding.classFqcn),
+          TypeVariableName.get("T")));
+    } else {
+      result.addSuperinterface(ParameterizedTypeName.get(VIEW_BINDER, TypeVariableName.get("T")));
+    }
+
+    result.addMethod(createBindMethod());
+
+    if (hasUnbinder() && hasViewBindings()) {
+      // Create unbinding class.
+      result.addType(createUnbinderClass());
+
+      if (!isFinal) {
+        // Now we need to provide child classes to access and override unbinder implementations.
+        createUnbinderCreateUnbinderMethod(result);
+      }
+    }
+
+    return JavaFile.builder(classPackage, result.build())
+        .addFileComment("Generated code from Butter Knife. Do not modify!")
+        .build();
+  }
+```
+在这里函数中首先会生成一个`public class {CLASS}$$ViewBinder<T extend {CLASS}> implements ViewBinder<T>`的类结构，其中`{CLASS}`代表了ButterKnife注解所在的类名。同时它还会在其中添加一个实现方法`bind(finder, target, source)`，方法`bind`在函数`createBindMethod`中创建。
+
+```java
+private MethodSpec createBindMethod() {
+    // 设置函数头
+    MethodSpec.Builder result = MethodSpec.methodBuilder("bind")
+        .addAnnotation(Override.class)
+        .addModifiers(PUBLIC)
+        .returns(UNBINDER)
+        .addParameter(FINDER, "finder", FINAL)
+        .addParameter(TypeVariableName.get("T"), "target", FINAL)
+        .addParameter(Object.class, "source");
+
+    // 绑定资源
+    // 调用父类的bind
+
+    // 设置初始化view
+    if (!viewIdMap.isEmpty() || !collectionBindings.isEmpty()) {
+      // Local variable in which all views will be temporarily stored.
+      result.addStatement("$T view", VIEW);
+
+      // Loop over each view bindings and emit it.
+      for (ViewBindings bindings : viewIdMap.values()) {
+        addViewBindings(result, bindings);
+      }
+
+      // Loop over each collection binding and emit it.
+      for (Map.Entry<FieldCollectionViewBinding, int[]> entry : collectionBindings.entrySet()) {
+        emitCollectionBinding(result, entry.getKey(), entry.getValue());
+      }
+    }
+
+    // 绑定资源
+    //---
+
+    return result.build();
+  }
+```
+
+进入`addViewBindings`函数.首先如果该`ViewBinding`需要绑定就用`findRequiredView`去初始化view，这个方法后面就看到。
+
+```java
+private void addViewBindings(MethodSpec.Builder result, ViewBindings bindings) {
+    List<ViewBinding> requiredViewBindings = bindings.getRequiredBindings();
+    if (requiredViewBindings.isEmpty()) {
+      result.addStatement("view = finder.findOptionalView(source, $L, null)", bindings.getId());
+    } else {
+      if (bindings.getId() == NO_ID) {
+        result.addStatement("view = target");
+      } else {
+        result.addStatement("view = finder.findRequiredView(source, $L, $S)", bindings.getId(),
+            asHumanDescription(requiredViewBindings));
+      }
+    }
+
+    addFieldBindings(result, bindings);
+    addMethodBindings(result, bindings);
+ }
+```
+
+在`brewJava`方法中完成一个辅助类的构建后，就可以调用`writeTo`方法生成一个.java文件。至此一个解析`@BindView`来生成辅助类的流程完成，现在来看看生成的辅助类。
+
+```java
+public class MainActivity$$ViewBinder<T extends MainActivity> implements ViewBinder<T> {
+  @Override
+  @SuppressWarnings("ResourceType")
+  public Unbinder bind(final Finder finder, final T target, Object source) {
+    InnerUnbinder unbinder = createUnbinder(target);
+    View view;
+    // 查找初始化view
+    view = finder.findRequiredView(source, 2131492945, "method 'onTextChange'");
+    target.mEtName = finder.castView(view, 2131492945, "field 'mEtName'");
+    unbinder.view2131492945 = view;
+    ((TextView) view).addTextChangedListener(new TextWatcher() {
+      @Override
+      public void onTextChanged(CharSequence p0, int p1, int p2, int p3) {
+        target.onTextChange(p0, p1, p2, p3);
+      }
+
+      @Override
+      public void beforeTextChanged(CharSequence p0, int p1, int p2, int p3) {
+      }
+
+      @Override
+      public void afterTextChanged(Editable p0) {
+      }
+    });
+
+    // 初始化list<view>
+    target.mViews = Utils.listOf(
+        finder.<View>findRequiredView(source, 2131492947, "field 'mViews'"),
+        finder.<View>findRequiredView(source, 2131492948, "field 'mViews'"),
+        finder.<View>findRequiredView(source, 2131492949, "field 'mViews'"));
+
+    // 初始化资源
+    Context context = finder.getContext(source);
+    Resources res = context.getResources();
+    Resources.Theme theme = context.getTheme();
+    target.mColorPrimary = Utils.getColor(res, theme, 2131427347);
+    target.layoutItemHeight = res.getDimensionPixelSize(2131230794);
+    target.strName = res.getString(2131099669);
+    target.strPasswd = res.getString(2131099670);
+    return unbinder;
+  }
+
+  // 设置Unbinder
+}
+```
+在生成的辅助类中，通过如下来初始view。
+
+```java
+view = finder.findRequiredView(source, 2131492945, "method 'onTextChange'");
+target.mEtName = finder.castView(view, 2131492945, "field 'mEtName'");
+```
+
+这里看到`bind`方法是不是很熟悉，和我们在`Activity`的`onCreate`函数中的`ButterKnife.bind()`长得一样，那么我们进入ButterKnife的`bind`方法。
+
+```java
+public static Unbinder bind(@NonNull Activity target) {
+    return bind(target, target, Finder.ACTIVITY);
+ }
+
+ static Unbinder bind(@NonNull Object target, @NonNull Object source, @NonNull Finder finder) {
+    Class<?> targetClass = target.getClass();
+    try {
+      if (debug) Log.d(TAG, "Looking up view binder for " + targetClass.getName());
+      ViewBinder<Object> viewBinder = findViewBinderForClass(targetClass);
+      return viewBinder.bind(finder, target, source);
+    } catch (Exception e) {
+      throw new RuntimeException("Unable to bind views for " + targetClass.getName(), e);
+    }
+ }
+```
+
+这里通过`findViewBinderForClass`找到`viewBinder`，那么我们再进入`findViewBinderForClass`中。
+
+```java
+private static ViewBinder<Object> findViewBinderForClass(Class<?> cls)
+      throws IllegalAccessException, InstantiationException {
+    // 从缓存中获取viewBinder
+    ViewBinder<Object> viewBinder = BINDERS.get(cls);
+    if (viewBinder != null) {
+      if (debug) Log.d(TAG, "HIT: Cached in view binder map.");
+      return viewBinder;
+    }
+
+    // 如果类在android开头的包下，则报错
+    String clsName = cls.getName();
+    if (clsName.startsWith("android.") || clsName.startsWith("java.")) {
+      if (debug) Log.d(TAG, "MISS: Reached framework class. Abandoning search.");
+      return NOP_VIEW_BINDER;
+    }
+
+    // 构建一个类
+    try {
+      Class<?> viewBindingClass = Class.forName(clsName + "$$ViewBinder");
+      //noinspection unchecked
+      viewBinder = (ViewBinder<Object>) viewBindingClass.newInstance();
+      if (debug) Log.d(TAG, "HIT: Loaded view binder class.");
+    } catch (ClassNotFoundException e) {
+      if (debug) Log.d(TAG, "Not found. Trying superclass " + cls.getSuperclass().getName());
+      viewBinder = findViewBinderForClass(cls.getSuperclass());
+    }
+    BINDERS.put(cls, viewBinder);
+    return viewBinder;
+  }
+```
+到这里我们又见到似曾相识的东西`$$ViewBinder`这个就是辅助类的后缀，那么就是在这里构建了一个`MainActivity$$ViewBinder`实例。
+
+现在回到`bind(target, source, finder)`方法中，当获得`viewBinder`实例后，调用其`bind`方法，也就是`MainActivity$$ViewBinder`的`bind`方法,那么此时我们就可以知道传入的`finder`为`Finder.ACTIVITY`。`Finder`是一个枚举类，我们看其中的`ACTIVITY`枚举：
+
+```java
+ACTIVITY {
+    @Override protected View findView(Object source, int id) {
+      return ((Activity) source).findViewById(id);
+    }
+
+    @Override public Context getContext(Object source) {
+      return (Activity) source;
+    }
+  },
+```
+到现在我们看到了更加熟悉的`findViewById`Android提供的初始化一个view的方法。到此为止我们知道了通过`ButterKnife.bind(Activity)`和`@BindView`注解初始化的过程。其他的注解处理的方式也是一样的。
+
 # 参考
 
 * [Android源码设计模式解析与实战](http://product.dangdang.com/23802445.html)
@@ -276,3 +682,4 @@ public class UserInfoFragment extends Fragment{
 * [公共技术点之 Java 注解 Annotation](http://a.codekk.com/detail/Android/Trinea/%E5%85%AC%E5%85%B1%E6%8A%80%E6%9C%AF%E7%82%B9%E4%B9%8B%20Java%20%E6%B3%A8%E8%A7%A3%20Annotation)
 * [Butter Knife](http://jakewharton.github.io/butterknife/)
 * [ButterKnife使用详解](http://blog.csdn.net/itjianghuxiaoxiong/article/details/50177549)
+* [Android 浅析 ButterKnife (二) 源码解析](http://www.jianshu.com/p/a5ea2ea75bb7)
