@@ -672,7 +672,33 @@ ACTIVITY {
     }
   },
 ```
-到现在我们看到了更加熟悉的`findViewById`Android提供的初始化一个view的方法。到此为止我们知道了通过`ButterKnife.bind(Activity)`和`@BindView`注解初始化的过程。其他的注解处理的方式也是一样的。
+
+我们再看在`MainActivity$$ViewBinder`中的初始化view的`findRequiredView`方法：
+
+```java
+public <T> T findRequiredView(Object source, int id, String who) {
+    T view = findOptionalView(source, id, who);
+    if (view == null) {
+      String name = getResourceEntryName(source, id);
+      throw new IllegalStateException("Required view '"
+          + name
+          + "' with ID "
+          + id
+          + " for "
+          + who
+          + " was not found. If this view is optional add '@Nullable' (fields) or '@Optional'"
+          + " (methods) annotation.");
+    }
+    return view;
+  }
+
+  public <T> T findOptionalView(Object source, int id, String who) {
+    View view = findView(source, id);
+    return castView(view, id, who);
+  }
+```
+
+到现在我们看到了最终通过`findView`抽象方法调到枚举`ACTIVITY`中的`findView`方法，到这里我们看到更加熟悉的`findViewById`Android提供的初始化一个view的方法。到此为止我们知道了通过`ButterKnife.bind(Activity)`和`@BindView`注解初始化的过程。其他的注解处理的方式也是一样的。
 
 # 参考
 
