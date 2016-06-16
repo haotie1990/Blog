@@ -53,15 +53,40 @@ UDP(User Datagram Protocol 用户数据报协议)，是一种面向非连接的�
 
 ### 3. HTTP/HTTPS
 
+#### 3.1 HTTP协议
+
 HTTP(HyperText Transfer Protocol, 超文本传输协议)，HTTP是一个客户端（用户）和服务器（网站）请求和应答的标准。通过使用Web浏览器、网络爬虫或者其他的工具，客户端发起一个HTTP请求到服务器上指定的端口（默认端口为80）。我们称这个客户端为用户代理程序（user agent）。应答服务器上存储着一些资源，比如HTML文件和图像，我们称这个应答服务器为源服务器（origin server）。
 
+#### 3.2 HTTPS协议
+
 HTTPS(HyperText Transfer Protocol Over Secure Socket Layer)，以安全为目的的HTTP通道。HTTPS的安全基础是SST/TSL，SSL(Secure Sockets Layer, 安全套接层)是网景公司开发为了解决HTTP协议明文传输会造成内容被嗅探和篡改问题的加密协议，后来由于SSL的应用广泛，IETF就把SSL协议标准化，标准化之后改名为TLS(Transport Layer Security, 传输层安全协议)，因此两者可以视为同一个东西的不同阶段。
+
+#### 3.3 URL
+
+URL(Uniform Resouce Locator)统一资源定位器，它是指向互联网资源的指针。资源可以是简单的文件后者目录，也可以是更为复杂的对象的引用，例如对数据库或者搜索引擎的查询。其格式如下：
+
+```url
+schema://host[:port#]/path/../[?query-string][#anchor]
+```
+
+* `schema`：指定底层使用的协议，例如http，https，ftp
+* `host`：http服务器的IP地址或者域名
+* `port#`：http服务器的默认端口是80，这种情况下可以省略。如果使用了逼的端口必须指明，例如`http://127.0.0.1:8085`
+* `path`：访问资源的路径
+* `query-string`：发送给http服务器的数据
+* `anchor`： 锚
+
+#### 3.4 Http请求报文格式
+
+#### 3.5 Http响应报文格式
 
 ## 系统API
 
 ### 1. Java Socket
 
-### 2. HttpConnection
+### 2. HttpURLConnection
+
+### 3. HttpClient
 
 ## 第三方网络库
 
