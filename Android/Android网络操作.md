@@ -86,7 +86,7 @@ HTTP的请求报文分为三部分：请求行、请求头、请求体
 
 请求行（Request Line）分为三部分：请求方法（Method）、请求地址（Request-URI）、协议及版本（HTTP-Version）。`HTTP/1.1`定义了8种请求方法：`GET`、`POST`、`PUT`、`DELETE`、`PATCH`、`HEAD`、`OPTIONS`、`TRACE`。最常用的是`GET`和`POST`。
 
-请求地址即URI（Uniform Resouce Identifiers, 统一资源标识符）地址。
+请求资源即URI（Uniform Resouce Identifiers, 统一资源标识符）地址。
 
 Http协议有如下版本：HTTP/0.9、HTTP/1.0、HTTP/1.1、HTTP/2.0，其中现在被广泛使用的是HTTP/1.1协议版本。
 
@@ -109,6 +109,61 @@ HTTP响应的格式出了状态行与请求的请求行不一样，其他就格�
 [状态码详解](http://tool.oschina.net/commons?type=5)
 
 响应信息即是对状态码的描述
+
+#### 3.6 Header
+
+Header可以分为请求头和响应头，它们的格式都是键值对存在。
+
+##### 3.6.1 请求和响应通过的Header
+
+|名称|作用|
+|:--------:|:----------:|
+|Content-Type|请求体或响应体的类型，如：text/plain、application/json|
+|Accept|说明接收的类型，可以有多个值，用`,`隔开|
+|Content-Length|请求体或响应体的长度，单位字节|
+|Content-Encoding|请求体或响应体的编码格式，如gzip、deflate|
+|Accept-Encoding|告知对方我放接受的Content-Encoding|
+|ETag|给当前资源的标示，和`Last-Modified`、`If-None-Match`、`If-Modified-Since`配合，用于缓存控制|
+|Cache-Control|取值一般为`no-cache`或`max-age=XX`，XX为整数，标示改资源存在有效期（秒）|
+
+##### 3.6.2 请求常见Header
+
+|名称|作用|
+|:--------:|:----------:|
+|Authorization|用于设置身份认证信息|
+|User-Agent|用户标示，如：OS和浏览器的类型和版本|
+|If-Modified-Since|值为上一次服务器返回的`Last-Modified`值，用于确认某个资源是否被改过，没有更改过（304）就从缓存中读取|
+|If-None-Match|值为服务器上一次返回的`ETag`值，一般会和`If-Modified-Since`一起出现|
+|Cookie|已有的Cookie|
+|Referer|表示请求引用自哪个地址|
+|Host|请求的主机和端口号|
+
+##### 3.6.3
+
+|名称|作用|
+|:--------:|:----------:|
+|Date|服务器的日期|
+|Last-Modified|该资源最后被修改的时间|
+|Transter-Encoding|取值一般为`chunked`，出现在`Content-Length`不能确定的情况下，表示服务器不知道响应版体的数据大小，一般还会出现`Content-Encoding`响应头|
+|Set-Cookie|设置Cookie|
+|Location|重定向到另一个URL|
+|Server|后台服务器|
+
+#### 3.7 请求体
+
+##### 3.7.1 Get方法
+
+使用`GET`方法没有请求体，请求参数和对应的值附加在URL后面，利用一个`?`代表URL结尾和请求参数的开始，多个参数之间用`&`隔开，参数与对应值之间用`=`隔开。
+
+```url
+http://www.google.cn/search?hl=zh-CN&source=hp
+```
+
+###### 3.7.2 Post方法
+
+`POST`方法将提交的数据以键值对的形式放在请求体（Body）中，此时`Content-Type`为`application/x-www-form-urlencoded`。
+
+![](../Image/1724103-18847d9a34c50bdd.png)
 
 ## 系统API
 
