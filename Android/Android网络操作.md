@@ -53,6 +53,10 @@ UDP(User Datagram Protocol 用户数据报协议)，是一种面向非连接的�
 
 ### 3. HTTP/HTTPS
 
+HTTP(HyperText Transfer Protocol, 超文本传输协议)，HTTP是一个客户端（用户）和服务器（网站）请求和应答的标准。通过使用Web浏览器、网络爬虫或者其他的工具，客户端发起一个HTTP请求到服务器上指定的端口（默认端口为80）。我们称这个客户端为用户代理程序（user agent）。应答服务器上存储着一些资源，比如HTML文件和图像，我们称这个应答服务器为源服务器（origin server）。
+
+HTTPS(HyperText Transfer Protocol Over Secure Socket Layer)，以安全为目的的HTTP通道。HTTPS的安全基础是SST/TSL，SSL(Secure Sockets Layer, 安全套接层)是网景公司开发为了解决HTTP协议明文传输会造成内容被嗅探和篡改问题的加密协议，后来由于SSL的应用广泛，IETF就把SSL协议标准化，标准化之后改名为TLS(Transport Layer Security, 传输层安全协议)，因此两者可以视为同一个东西的不同阶段。
+
 ## 系统API
 
 ### 1. Java Socket
