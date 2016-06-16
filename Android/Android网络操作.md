@@ -32,7 +32,7 @@ Socket，一个应用程序接口，使主机或一台计算机上的进程间�
 
 在Socket中封装的主要是使用TCP协议的流套接字和使用UDP协议的数据报套接字。
 
-TCP(Transmission Control Protocol,传输控制协议)是面向连接的协议，也就是说。在收发数据前，必须和对方建立可靠的连接。TCP协议建立连接需要**三次握手**，在三次握手的过程中主要通过判断位码来建立连接，总共有六种位码：SYN(Synchronous 建立连接)，ACK(Acknowledgement 确认)，FSH(Push 传送)，FIN(Finish 结束)，RST(Reset 重置)，URG(Urgent 紧急)。Sequence Number(顺序码)，Acknowledge Number(确认号)。
+`TCP`(Transmission Control Protocol,传输控制协议)是面向连接的协议，也就是说。在收发数据前，必须和对方建立可靠的连接。TCP协议建立连接需要**三次握手**，在三次握手的过程中主要通过判断位码来建立连接，总共有六种位码：SYN(Synchronous 建立连接)，ACK(Acknowledgement 确认)，FSH(Push 传送)，FIN(Finish 结束)，RST(Reset 重置)，URG(Urgent 紧急)。Sequence Number(顺序码)，Acknowledge Number(确认号)。
 
 1. 客户端发送SYN包，其中SYN=1，Sequence Number=x(x为随机生成)，进入SYN_SENT状态
 2. 服务器收到SYN包，发送SYN+ACK包到客户端，其中SYN=1，ACK=1，Sequence Numer=y(y为服务器随机生成)，Acknowledge Numer=x+1(x为主动发SYN包中携带的顺序码)，进入SYN_RECV状态
@@ -49,21 +49,21 @@ TCP(Transmission Control Protocol,传输控制协议)是面向连接的协议，
 
 ![](../Image/20160615201932685.jpg)
 
-UDP(User Datagram Protocol 用户数据报协议)，是一种面向非连接的协议，面向非连接指的是在正式通讯前不必与对方先建立连接，不管对方状态就直接发送。至于对方是否可以接到通信数据内容，UDP协议无法控制，因此说UDP协议是一种不可靠的协议。UDP协议只适合一次性传输少量数据，对可靠性要求不高的应用环境。
+`UDP`(User Datagram Protocol 用户数据报协议)，是一种面向非连接的协议，面向非连接指的是在正式通讯前不必与对方先建立连接，不管对方状态就直接发送。至于对方是否可以接到通信数据内容，UDP协议无法控制，因此说UDP协议是一种不可靠的协议。UDP协议只适合一次性传输少量数据，对可靠性要求不高的应用环境。
 
 ### 3. HTTP/HTTPS
 
 #### 3.1 HTTP协议
 
-HTTP(HyperText Transfer Protocol, 超文本传输协议)，HTTP是一个客户端（用户）和服务器（网站）请求和应答的标准。通过使用Web浏览器、网络爬虫或者其他的工具，客户端发起一个HTTP请求到服务器上指定的端口（默认端口为80）。我们称这个客户端为用户代理程序（user agent）。应答服务器上存储着一些资源，比如HTML文件和图像，我们称这个应答服务器为源服务器（origin server）。
+`HTTP`(HyperText Transfer Protocol, 超文本传输协议)，HTTP是一个客户端（用户）和服务器（网站）请求和应答的标准。通过使用Web浏览器、网络爬虫或者其他的工具，客户端发起一个HTTP请求到服务器上指定的端口（默认端口为80）。我们称这个客户端为用户代理程序（user agent）。应答服务器上存储着一些资源，比如HTML文件和图像，我们称这个应答服务器为源服务器（origin server）。
 
 #### 3.2 HTTPS协议
 
-HTTPS(HyperText Transfer Protocol Over Secure Socket Layer)，以安全为目的的HTTP通道。HTTPS的安全基础是SST/TSL，SSL(Secure Sockets Layer, 安全套接层)是网景公司开发为了解决HTTP协议明文传输会造成内容被嗅探和篡改问题的加密协议，后来由于SSL的应用广泛，IETF就把SSL协议标准化，标准化之后改名为TLS(Transport Layer Security, 传输层安全协议)，因此两者可以视为同一个东西的不同阶段。
+`HTTPS`(HyperText Transfer Protocol Over Secure Socket Layer)，以安全为目的的HTTP通道。HTTPS的安全基础是`SST/TSL`，`SSL`(Secure Sockets Layer, 安全套接层)是网景公司开发为了解决`HTTP`协议明文传输会造成内容被嗅探和篡改问题的加密协议，后来由于`SSL`的应用广泛，IETF就把`SSL`协议标准化，标准化之后改名为`TLS`(Transport Layer Security, 传输层安全协议)，因此两者可以视为同一个东西的不同阶段。
 
 #### 3.3 URL
 
-URL(Uniform Resouce Locator)统一资源定位器，它是指向互联网资源的指针。资源可以是简单的文件后者目录，也可以是更为复杂的对象的引用，例如对数据库或者搜索引擎的查询。其格式如下：
+`URL`(Uniform Resouce Locator)统一资源定位器，它是指向互联网资源的指针。资源可以是简单的文件后者目录，也可以是更为复杂的对象的引用，例如对数据库或者搜索引擎的查询。其格式如下：
 
 ```url
 schema://host[:port#]/path/../[?query-string][#anchor]
@@ -78,7 +78,37 @@ schema://host[:port#]/path/../[?query-string][#anchor]
 
 #### 3.4 Http请求报文格式
 
+HTTP的请求报文分为三部分：请求行、请求头、请求体
+
+![](../Image/1724103-c43900117e983241.png)
+
+##### 请求行
+
+请求行（Request Line）分为三部分：请求方法（Method）、请求地址（Request-URI）、协议及版本（HTTP-Version）。`HTTP/1.1`定义了8种请求方法：`GET`、`POST`、`PUT`、`DELETE`、`PATCH`、`HEAD`、`OPTIONS`、`TRACE`。最常用的是`GET`和`POST`。
+
+请求地址即URI（Uniform Resouce Identifiers, 统一资源标识符）地址。
+
+Http协议有如下版本：HTTP/0.9、HTTP/1.0、HTTP/1.1、HTTP/2.0，其中现在被广泛使用的是HTTP/1.1协议版本。
+
 #### 3.5 Http响应报文格式
+
+HTTP响应的格式出了状态行与请求的请求行不一样，其他就格式而言是一样的。但同过请求头和响应头的不用还是可以判断出请求报文还是响应报文。
+
+![](../Image/1724103-e8ebcab6c80b9044.png)
+
+响应状态行（Response Line）分为三部分：协议版本（HTTP-Version）、响应码（Status Code）、响应信息（Reason Phrase）。
+
+响应码也叫状态码，有三位数字组成，第一个数字定义了响应的级别，有五种可能：
+
+* 1XX：指示消息，表示请求已接收，继续处理
+* 2XX：成功，表示请求已被成功接收、理解、处理
+* 3XX：重定向，表示要完成请求必须进行进一步的操作
+* 4XX：客户端错误，请求有语法错误或请求无法实现
+* 5XX：服务端错误，服务器未能实现合法请求
+
+[状态码详解](http://tool.oschina.net/commons?type=5)
+
+响应信息即是对状态码的描述
 
 ## 系统API
 
