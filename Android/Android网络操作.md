@@ -169,6 +169,14 @@ http://www.google.cn/search?hl=zh-CN&source=hp
 
 ### 1. Java Socket
 
+#### 1.1 Java TCP
+
+Java为TCP协议提供了两个类，Socket类和ServerSocket类。一个Socket实例代表了一个TCP连接的客户端，而一个ServerSocket实例代表了TCP连接的服务端。一般在TCP Socket编程中，客户端有多个，而服务端只有一个，客户端向服务端发送连接请求 ，服务端通过ServerSocket实例的accept方法接收一个客户端的连接请求，该方法将返回一个与客户端Socket对应的Socket，否则该方法将一直处于阻塞状态，线程也被阻塞。当客户端和服务端产生了对应的Socket之后，程序无需再区分服务端和客户端，而是通过各自的Socket进行通信。Socket提供了getInputStream和getOutputStream两个方法来获取输入流和输出流，我们通过将字节写入OutputStream来发送数据，并通过InputStream来接收数据。
+
+#### 1.2 Java UDP
+
+Java使用DatagramSocket代表UDP协议的Socket，DatagramSocket本身不维护状态，不产生IO流，它唯一的作用是通过send和receive方法来发送和接收数据，Java使用DatagramPacket来代表数据报，DatagramSocket接收和发送的数据都是通过DatagramPacket对象完成的。发送信息时，Java创建一个包含特定发送信息的DatagramPacket实例，并将其作为参数传递给DatagramSocket实例的send方法；接收信息时，Java程序首先创建一个DatagramPacket实例，该实例预先分配了空间，并将该DatagramPacket实例作为参数传递给DatagramSocket实例的receive方法中，当有消息到来时，接收的信息将存放在创建的DatagramPacket中。在创建DatagramPacket实例时，需要注意，如果该实例用来存在待接收的数据，则不指定数据来源的远程主机和端口，只需要指定一个缓存数据的byte数组即可，而如果该实例用来封装待发送的数据，则需要指定要发送的目的主机和端口。
+
 ### 2. HttpURLConnection
 
 ### 3. HttpClient
