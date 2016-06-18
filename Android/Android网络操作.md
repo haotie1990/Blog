@@ -179,6 +179,69 @@ Java使用DatagramSocket代表UDP协议的Socket，DatagramSocket本身不维护
 
 ### 2. HttpURLConnection
 
+[HttpURLConnection](http://www.apihome.cn/api/java/HttpURLConnection.html)是JDK里提供的联网API，如果要使用HttpURLConnection联网，首先需要创建一个URL对象，并传入目标的网络地址，然后调用openConnection方法获取[URLConnection](http://www.apihome.cn/api/java/URLConnection.html)对象，它代表了一个与URL实例所引用的远程对象的连接，但此时还没有建立连接。
+
+```java
+URL url = new URL("http://gank.io/api/data/Android/1/1");
+HttpURLConnection httpConnection = (HttpURLConnection) url.openConnection();
+```
+
+> NOTE：HttpURLConnection是URLConnection抽象类的子类。
+
+在得到HttpURLConnection的实例后，就可以设置HTTP请求的参数。
+
+```java
+// 设置请求方法，默认GET方法
+httpConnection.setRequestMethod("GET");
+
+// 设置是否向HttpURLConnection输出，默认为false，如果需要OutputStream
+// 想请求体写数据，需要设为true
+httpConnection.setDoOutput(false);
+
+// 是否从HttpURLConnection读入数据，默认为true，如果不要InputStream从响应
+// 体重读取数据，则可以设为false
+httpConnection.setDoInput(true);
+
+// 是否启动缓存
+httpConnection.setUseCaches(true);
+
+// 所有对Http请求的设置操作必须在connect方法之前完成
+// 创建一个到URL引用资源的通信连接
+httpConnection.connect();
+```
+
+设置好HTTP请求参数后，既可以通过`getInputStream`方法获取响应的状态码和数据。
+
+```java
+// 获取响应状态码，这里首先会调用getInputStream方法来发送HTTP请求到服务器，
+// 如果此时连接为建立则会调用connect方法建立连接，因此可以不调用上述的connet方法
+if(httpConnection.getResponseCode() == HttpURLConnection.HTTP_OK){
+
+    StringBuilder strResponse = new StringBuilder();
+    byte[] buffer = new byte[1024];
+    InputStream in = httpConnection.getInputStream();
+    while(in.read(buffer) != -1){
+    	strResponse.append(new String(buffer));
+    }
+    System.out.println(strResponse);
+}
+
+// 请求结束后，断开连接
+httpConnection.disconnect();
+```
+
+如果是通过POST方式发送HTTP请求需要注意如下：
+
+* 需要设置`setDoOutput`为true，来向HTTP请求体写入数据
+* 使用`setRequestProperty`设置`Content-Type`等请求头信息
+* 调用`getOutputStream`来向请求体写入请求数据，在完成数据写入后需要调用`flush`和`close`方法刷新输出流并关闭输出流，此时会生成Http请求体
+
+由于HTTP请求的的格式决定，在调用`getInputStream`方法发送请求后对HttpURLConnection对象进行设置（对http请求头的信息进行设置）或者写入`OutputStream`（对请求体写入信息）都是错误的，并且会导致异常发生。
+
+HttpURLConnection是基于HTTP协议，但其底层是通过TCP Socket通信实现的，如果不设置超时，在网络异常的情况下，可能会导致程序僵死而不继续往下执行。可以通过`setConnectTimeout`和`setReadTimeout`设置连接超时和读超时。
+
+前面的`URLConnection`和`HttpURLConnection`都是抽象类，真正的实现类是`sun.net.www.protocol.http`包下的[`HttpURLConnection`](http://grepcode.com/file/repository.grepcode.com/java/root/jdk/openjdk/8u40-b25/sun/net/www/protocol/http/HttpURLConnection.java#HttpURLConnection)
+
 ### 3. HttpClient
 
 ## 第三方网络库
