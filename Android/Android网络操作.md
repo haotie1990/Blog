@@ -303,6 +303,13 @@ HttpClient提供的API众多，以上只是简单使用，更多的可以参考�
 
 更详细的区别可以参考这篇[Android HttpURLConnection及HttpClient选择](http://www.trinea.cn/android/android-http-api-compare/)
 
+在最新的Android 6.0已经将Apache HTTP Client移除了。
+
+    Android 6.0 release removes support for the Apache HTTP client. If your app is using this client and targets Android 2.3 (API level 9) or higher, use the HttpURLConnection class instead. This API is more efficient because it reduces network use through transparent compression and response caching, and minimizes power consumption. To continue using the Apache HTTP APIs, you must first declare the following compile-time dependency in your build.gradle file:
+    android {
+        useLibrary 'org.apache.http.legacy'
+    }
+
 ## 第三方网络库
 
 ### 1. OkHttp
