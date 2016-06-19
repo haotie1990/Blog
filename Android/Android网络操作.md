@@ -240,6 +240,8 @@ httpConnection.disconnect();
 
 HttpURLConnection是基于HTTP协议，但其底层是通过TCP Socket通信实现的，如果不设置超时，在网络异常的情况下，可能会导致程序僵死而不继续往下执行。可以通过`setConnectTimeout`和`setReadTimeout`设置连接超时和读超时。
 
+HttpURLConnection出了支持简单的HTTP请求还支持更多的Authentication、Sessions、Cookies和Response Caching，更多的是用可以参考Android开发者网站的介绍](https://developer.android.com/reference/java/net/HttpURLConnection.html)
+
 前面的`URLConnection`和`HttpURLConnection`都是抽象类，真正的实现类是`sun.net.www.protocol.http`包下的[`HttpURLConnection`](http://grepcode.com/file/repository.grepcode.com/java/root/jdk/openjdk/8u40-b25/sun/net/www/protocol/http/HttpURLConnection.java#HttpURLConnection)
 
 ### 3. HttpClient
@@ -298,6 +300,8 @@ HttpClient提供的API众多，以上只是简单使用，更多的可以参考�
 ### 4. HttpURLConnection和HttpClient区别
 
 **对于Android应用开发**，在Froyo(2.2)之前，HttpURLConnection有一个重大的Bug，调用close()函数会影响连接池，导致连接复用失效，所以在Froyo之前使用HttpURLConnection需要关闭keepAlive。而HttpClient则问题较少。但在Gingerbread(2.3)HttpURLConnection默认开启了gzip压缩，提高了HTTPS的性能，而IceaCream Sandwich(4.0)的HttpURLConnection支持了请求缓存。再加上HttpURLConnection本身的API相对简单，所以在Android 2.3以后官网更推荐使用HttpURLConnection，之前推荐使用AndroidHttpClinet（HttpClient的封装）。[摘自Volley 源码解析](http://www.codekk.com/open-source-project-analysis/detail/Android/grumoon/Volley%20%E6%BA%90%E7%A0%81%E8%A7%A3%E6%9E%90)
+
+更详细的区别可以参考这篇[Android HttpURLConnection及HttpClient选择](http://www.trinea.cn/android/android-http-api-compare/)
 
 ## 第三方网络库
 
