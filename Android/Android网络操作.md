@@ -295,6 +295,10 @@ httpClient.close();
 
 HttpClient提供的API众多，以上只是简单使用，更多的可以参考官网提供的样例，·[HttpClient官网事例](http://hc.apache.org/httpcomponents-client-ga/examples.html#)
 
+### 4. HttpURLConnection和HttpClient区别
+
+在Froyo(2.2)之前，HttpURLConnection有一个重大的Bug，调用close()函数会影响连接池，导致连接复用失效，所以在Froyo之前使用HttpURLConnection需要关闭keepAlive。而HttpClient则问题较少。但在Gingerbread(2.3)HttpURLConnection默认开启了gzip压缩，提高了HTTPS的性能，而IceaCream Sandwich(4.0)的HttpURLConnection支持了请求缓存。再加上HttpURLConnection本身的API相对简单，所以在Android 2.3以后官网更推荐使用HttpURLConnection，之前推荐使用AndroidHttpClinet（HttpClient的封装）。
+
 ## 第三方网络库
 
 ### 1. OkHttp
