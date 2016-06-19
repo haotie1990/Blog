@@ -195,11 +195,11 @@ HttpURLConnection httpConnection = (HttpURLConnection) url.openConnection();
 httpConnection.setRequestMethod("GET");
 
 // 设置是否向HttpURLConnection输出，默认为false，如果需要OutputStream
-// 想请求体写数据，需要设为true
+// 向请求体写数据，需要设为true
 httpConnection.setDoOutput(false);
 
 // 是否从HttpURLConnection读入数据，默认为true，如果不要InputStream从响应
-// 体重读取数据，则可以设为false
+// 体读取数据，则可以设为false
 httpConnection.setDoInput(true);
 
 // 是否启动缓存
@@ -214,7 +214,7 @@ httpConnection.connect();
 
 ```java
 // 获取响应状态码，这里首先会调用getInputStream方法来发送HTTP请求到服务器，
-// 如果此时连接为建立则会调用connect方法建立连接，因此可以不调用上述的connet方法
+// 如果此时连接未建立则会调用connect方法建立连接，因此可以不调用上述的connet方法
 if(httpConnection.getResponseCode() == HttpURLConnection.HTTP_OK){
 
     StringBuilder strResponse = new StringBuilder();
@@ -270,7 +270,7 @@ if(httpResponse.getStatusLine().getStatusCode() == 200){
 	System.out.println(EntityUtils.toString(entity));
 }
 ```
-如果是POST请求，不仅需要用HttpPost代替HttpGet，并且需要通过一个NameValuePair的集合来存放待提交的参数，然后将这个参数集传入一个UrlEncodedFormEntiry中，最后调用HttpPost的setEntiry方法将构建好的UrlEncodedFormEntiry传入，接下来操作和HttpGet一样，调用HttpClient的execute方法执行强求，通过httpResponse获取响应。
+如果是POST请求，不仅需要用HttpPost代替HttpGet，并且需要通过一个NameValuePair的集合来存放待提交的参数，然后将这个参数集传入一个UrlEncodedFormEntiry中，最后调用HttpPost的setEntiry方法将构建好的UrlEncodedFormEntiry传入，接下来操作和HttpGet一样，调用HttpClient的execute方法执行请求，通过HttpResponse获取响应。
 
 ```java
 List<NameValuePair> params = new ArrayList<NameValuePair>();
@@ -282,6 +282,7 @@ UrlEncodedFormEntity entity = new UrlEncodedFormEntity(params, "utf-8");
 // 将参数集合放入HttpPost请求中
 httpPost.setEntity(entity);
 ```
+
 这里推荐使用`CloseableHttpClient`代替`HttpClient`和使用`CloseableHttpResponse`代替 `httpResponse`，前两者均继承了`Closeable`接口，可以在使用后断开连接，释放资源。
 
 ```java
@@ -293,7 +294,6 @@ httpClient.close();
 ```
 
 HttpClient提供的API众多，以上只是简单使用，更多的可以参考官网提供的样例，·[HttpClient官网事例](http://hc.apache.org/httpcomponents-client-ga/examples.html#)
-
 
 ## 第三方网络库
 
