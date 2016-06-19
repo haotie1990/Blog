@@ -244,6 +244,57 @@ HttpURLConnection是基于HTTP协议，但其底层是通过TCP Socket通信实�
 
 ### 3. HttpClient
 
+HttpClient是Apache提供的HTTP访问网络接口，从一开始的时候就被引入到AndroidAPI中，它可以完成和HttpURLConnection一样的效果，但使用方法有区别。
+
+首先需要创建HttpClient对象，然后创建请求方法实例，如果是GET请求就创建HttpGet对象；如果是POST请求则需要创建HttpPost对象。
+
+```java
+// 创建HttpClient实例
+CloseableHttpClient httpClient = HttpClients.createDefault();
+
+// 创建HttpGet实例用于GET请求
+HttpGet httpGet = new HttpGet("http://gank.io/api/data/Android/1/1");
+
+// 执行GET请求，并返回HttpResponse对象
+CloseableHttpResponse httpResponse = httpClient.execute(httpGet);
+```
+
+服务器返回的所有信息都封装在HttpResponse对象里。首先要获取服务器返回的状态码，如果等于200说明请求和响应都成功，就可以调用`getEntity`方法获取HttpEntity实例，HTTP响应的正文就包在这个对象里。
+
+```java
+// 获取响应状态码
+if(httpResponse.getStatusLine().getStatusCode() == 200){
+
+	HttpEntity entity = httpResponse.getEntity();
+	// 打印响应内容
+	System.out.println(EntityUtils.toString(entity));
+}
+```
+如果是POST请求，不仅需要用HttpPost代替HttpGet，并且需要通过一个NameValuePair的集合来存放待提交的参数，然后将这个参数集传入一个UrlEncodedFormEntiry中，最后调用HttpPost的setEntiry方法将构建好的UrlEncodedFormEntiry传入，接下来操作和HttpGet一样，调用HttpClient的execute方法执行强求，通过httpResponse获取响应。
+
+```java
+List<NameValuePair> params = new ArrayList<NameValuePair>();
+// 设置请求参数
+params.add(new BasicNameValuePair("username", "admin"));
+params.add(new BasicNameValuePair("password", "123456"));
+// 构建UrlEncodedFormEntity
+UrlEncodedFormEntity entity = new UrlEncodedFormEntity(params, "utf-8");
+// 将参数集合放入HttpPost请求中
+httpPost.setEntity(entity);
+```
+这里推荐使用`CloseableHttpClient`代替`HttpClient`和使用`CloseableHttpResponse`代替 `httpResponse`，前两者均继承了`Closeable`接口，可以在使用后断开连接，释放资源。
+
+```java
+// 关闭响应连接
+httpResponse.close();
+
+// 关闭请求连接
+httpClient.close();
+```
+
+HttpClient提供的API众多，以上只是简单使用，更多的可以参考官网提供的样例，·[HttpClient官网事例](http://hc.apache.org/httpcomponents-client-ga/examples.html#)
+
+
 ## 第三方网络库
 
 ### 1. OkHttp
@@ -258,3 +309,5 @@ HttpURLConnection是基于HTTP协议，但其底层是通过TCP Socket通信实�
 * [你应该知道的HTTP基础知识](http://www.jianshu.com/p/e544b7a76dac)
 * [Android网络请求心路历程](http://www.jianshu.com/p/3141d4e46240)
 * [TCP网络关闭的状态变换时序图](http://coolshell.cn/articles/1484.html)
+* [HttpClient使用详解](http://blog.csdn.net/wangpeng047/article/details/19624529)
+* [JDK中的URLConnection参数详解](http://www.blogjava.net/supercrsky/articles/247449.html)
