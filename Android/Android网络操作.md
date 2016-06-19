@@ -297,7 +297,7 @@ HttpClient提供的API众多，以上只是简单使用，更多的可以参考�
 
 ### 4. HttpURLConnection和HttpClient区别
 
-在Froyo(2.2)之前，HttpURLConnection有一个重大的Bug，调用close()函数会影响连接池，导致连接复用失效，所以在Froyo之前使用HttpURLConnection需要关闭keepAlive。而HttpClient则问题较少。但在Gingerbread(2.3)HttpURLConnection默认开启了gzip压缩，提高了HTTPS的性能，而IceaCream Sandwich(4.0)的HttpURLConnection支持了请求缓存。再加上HttpURLConnection本身的API相对简单，所以在Android 2.3以后官网更推荐使用HttpURLConnection，之前推荐使用AndroidHttpClinet（HttpClient的封装）。
+**对于Android应用开发**，在Froyo(2.2)之前，HttpURLConnection有一个重大的Bug，调用close()函数会影响连接池，导致连接复用失效，所以在Froyo之前使用HttpURLConnection需要关闭keepAlive。而HttpClient则问题较少。但在Gingerbread(2.3)HttpURLConnection默认开启了gzip压缩，提高了HTTPS的性能，而IceaCream Sandwich(4.0)的HttpURLConnection支持了请求缓存。再加上HttpURLConnection本身的API相对简单，所以在Android 2.3以后官网更推荐使用HttpURLConnection，之前推荐使用AndroidHttpClinet（HttpClient的封装）。[摘自Volley 源码解析](http://www.codekk.com/open-source-project-analysis/detail/Android/grumoon/Volley%20%E6%BA%90%E7%A0%81%E8%A7%A3%E6%9E%90)
 
 ## 第三方网络库
 
