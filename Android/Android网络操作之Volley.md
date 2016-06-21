@@ -177,7 +177,7 @@ RequestQueue mRequestQueue;
 // 初始化缓存
 Cache cache = new DiskBasedCache(getCacheDir(), 1024 * 1024); // 1MB cap
 
-// 使用HttpURLConnectionz作为网络处理请求的Http实现
+// 使用HttpURLConnection作为网络处理请求的Http实现
 Network network = new BasicNetwork(new HurlStack());
 
 // 使用自定义的Cache和Network构造一个RequestQueue
