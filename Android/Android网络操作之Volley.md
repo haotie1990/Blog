@@ -365,6 +365,9 @@ public class XmlRequest extends Request<XmlPullParser>{
     }
 }
 ```
+# Demo
+
+[VolleyDemo地址](https://github.com/haotie1990/VolleyDeme)
 
 # 参考
 
