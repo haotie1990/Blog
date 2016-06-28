@@ -135,7 +135,7 @@ client.newCall(request).enqueue(new Callback() {
 
 ### 3. 解析[Response](http://square.github.io/okhttp/3.x/okhttp/okhttp3/Response.html)
 
-获取响应对象`Response`后，既可以使用其方法`isSuccessful()`方法判断响应是否成功，也可以使用`code()`和`message()`方法获取响应状态码及其描述。如果响应成功，则可以使用`headers()`方法获得包含响应头信息的[`Headers`](http://square.github.io/okhttp/3.x/okhttp/okhttp3/Headers.html)对象，`body()`方法获得包含响应体信息的]`ResponseBody`](http://square.github.io/okhttp/3.x/okhttp/okhttp3/RequestBody.html)对象。
+获取响应对象`Response`后，既可以使用其方法`isSuccessful()`方法判断响应是否成功，也可以使用`code()`和`message()`方法获取响应状态码及其描述。如果响应成功，则可以使用`headers()`方法获得包含响应头信息的[`Headers`](http://square.github.io/okhttp/3.x/okhttp/okhttp3/Headers.html)对象，`body()`方法获得包含响应体信息的[`ResponseBody`](http://square.github.io/okhttp/3.x/okhttp/okhttp3/RequestBody.html)对象。
 
 ```java
 if(!response.isSuccessful())
