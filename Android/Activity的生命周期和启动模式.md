@@ -34,3 +34,17 @@ Activity生命周期发生变化，还有一种情况就是异常的生命周期
 > NOTE：Activity在系统配置改变情况下需要重建时，系统也会为我们保存当前Activity的视图结构，例如文本框的用户输入、ListView的滚动位置等。
 
 当然也可以避免系统配置改变时Activity被烧毁而重新创建，只需要给Activity指定configChanges属性。以下是介个主要的属性：
+
+|属性|功能|
+|:-----|:------------|
+|locale|设备本地位置发生了改变，一般指系统语言|
+|keybordHidden|键盘的访问性发生了改变，比如用户调出了键盘|
+|orientation|屏幕方向发生了改变，比如旋转了手机屏幕|
+|screenSize|屏幕的尺寸信息发生了改变，当旋转屏幕时，屏幕的尺寸信息会改变，这个选项比较特殊，它和编译选项有关，当编译选项中的minSdkVersion和targetSdkVersion均小于13时，Activity不会销毁重启，否则会销毁重启|
+
+所以一般情况下，我们采用在AndroidManifest.xml中如下配置防止系统配置发生改变导致Activity销毁重启：
+```
+android:configChanges="orientation|keybordHidden|screenSize“
+```
+
+此时如果系统配置发生改变，将会回调`onConfigurationChanged(Configuration)`方法。
