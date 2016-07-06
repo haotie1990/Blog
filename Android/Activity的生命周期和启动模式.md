@@ -48,3 +48,30 @@ android:configChanges="orientation|keybordHidden|screenSize“
 ```
 
 此时如果系统配置发生改变，将会回调`onConfigurationChanged(Configuration)`方法。
+
+## Activity的启动模式和返回栈
+
+正常情况下，我们多次启动同一个Activity的时候，系统会创建多个实例并把他们放入任务栈（任务栈是指在执行特定作业时与用户交互的一系列Activity，这些Activity按照各自的打开顺序排列在堆栈即返回栈中）中。但有时候，我们希望多次启动同一个Activity时，系统只创建一个实例，这个时候就需要通过设置Activity的启动模式来实现。
+
+|启动模式|功能|
+|:-----|:------------|
+|standard|系统默认启动模式，每次启动一个Activity都会重新穿件一个新的实例，不管这个实例是否已经存在。在这种模式下，谁启动了这个Activity，那么这个Activity就运行在启动它的按个Activity所在的任务栈中|
+|singleTop|栈顶复用模式，如果新的Activity已经位于任务栈的栈顶，那么次Activity不会被重新创建，同时它的onNewIntent方法会被回调|
+|singleTask|栈内复用模式，这是一种单例模式，在这种模式下，如果Activity声明的taskAffinity任务栈存在，这个时候检查此任务栈是否有此Activity的实例，如果存在实例，就把此Activity上面的的Activity销毁并将此Activity移至栈顶，如果实例不存在，就创建Activity并压入栈。如果不存在指定的任务栈，就重新创建任务栈，然后创建Activity实例并压入栈|
+|singleInstance|单例模式，这是一种加强的singleTask模式，但是具有此模式的Activity只能单独位于一个任务栈中。即其他Activity启动此模式的Activity都会单独创建任务栈，由此Activity启动的任何Activity也均在单独的任务栈中打开|
+
+下图为“singleTask”模式的Activity的任务栈状态：
+
+![](../Image/diagram_backstack_singletask_multiactivity.png)
+
+以上的启动模式需要在AndroidManifest文件中配置Activity的android:launchMode属性，同时也可以在启动的Activity的时候，通过Intent的setFlags方法设置设置Flags来设定Activity的启动模式。常用的有如下Flags：
+
+* FLAG_ACTIVITY_NEW_TASK：类似“singleTask”
+* FLAG_ACTIVITY_SINGLE_TOP：类似“singleTop”
+* FLAG_ACTIVITY_CLEAR_TOP：具有此标记的Activity，在它启动时，同一个任务栈中所有位于它上面的Activity都要出栈
+* FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS：具有此标记的Activity不会出现在历史Activity的列表中
+
+# 参考
+
+* [任务和返回栈](https://developer.android.com/guide/components/tasks-and-back-stack.html)
+* [Android开发艺术探索]()
