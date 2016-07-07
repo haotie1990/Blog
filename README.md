@@ -5,5 +5,22 @@
 ## 目录
 
 * [Android](/Android/Android目录索引.md)
+
+ * [简述Android中Activity的启动（onCreate方法的调用）.md](Android/简述Android中Activity的启动（onCreate方法的调用）.md)
+ * [观察者模式与EventBus](Android/观察者模式与EventBus.md)
+ * [访问者模式与ButterKnife](Android/访问者模式与ButterKnife.md)
+ * [Android网络操作](Android/Android网络操作.md)
+ * [Android网络操作之Volley](Android/Android网络操作之Volley.md)
+ * [Android网络操作之OkHttp](Android/Android网络操作之OkHttp.md)
+ * [Android内存泄露](Android/Android内存泄露.md)
+ * [Activity的生命周期和启动模式](Android/Activity的生命周期和启动模式.md)
+
 * [Java](/Java/Java目录索引.md)
+
+ * [RxJava使用指南](/Java/RxJava.md)
+
 * [Othrer](/Other/Other目录索引.md)
+
+ * [Markdown操作手册](Other/Markdown操作手册.md)
+ * [GitHub及Git的使用](Other/GitHub及Git的使用.md)
+ * [Android再学习计划](README.md)
