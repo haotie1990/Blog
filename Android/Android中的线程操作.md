@@ -1,8 +1,113 @@
 # Android中的线程操作
 
+Android沿用了Java的线程模型，其中的线程也分为主线程和子线程，主线程也叫UI线程。主线程的作用是运行四大组件以及处理它们和用户的交互，而子线程（也叫工作线程）的作用则是执行耗时任务，如果网络请求、IO操作等。所以有时候我们为了处理一些耗时的操作，必须单独创建一个线程去执行相应的任务。
+
 ## Android中的线程形态
 
-### Thread和Runnable
+Android中的线程异步方案除了传统的Thread以外，还包括AysncTask、HandlerThread以及IntentService，将依次介绍它们。
+
+### Java中的线程
+
+Java使用Thread类代表线程，所有的线程对象都必须是Thread类或者其子类的实例。
+
+#### 1. 继承Thread类创建线程
+
+通过继承Thread类来创建并启动多线程：
+
+1. 定义Thread类的子类，并重写该类的run()方法，该run()方法体代表了线程需要完成的任务。
+2. 创建Thread子类的实例，即创建了线程对象
+3. 调用线程对象的start()方法来启动该线程
+
+```java
+public class ThreadTest {
+
+	static class WorkThread extends Thread{
+		@Override
+		public void run() {
+			// TODO Auto-generated method stub
+            // 在此方法中执行线程任务
+            for (int i = 0; i < 100; i++) {
+				System.out.println(i);
+			}
+		}
+	}
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+        // 创建并启动线程
+		WorkThread workThread = new WorkThread();
+		workThread.start();
+	}
+
+}
+```
+
+#### 2. 实现Runnable接口创建线程
+
+实现Runnable接口来创建并启动线程：
+
+1. 定义Runnable接口的实现类，并重写该接口的run()方法，该run()方法的方法体同样是该线程的线程执行体
+2. 创建Runnable实现类的实例，并以此实例作为Thread的target来创建Thread对象，该Thread对象才是真正的线程对象。
+
+```java
+public class RunnableTest {
+
+	static class WorkThread implements Runnable{
+		@Override
+		public void run() {
+			// TODO Auto-generated method stub
+			System.out.println(Thread.currentThread().getName());
+		}
+	}
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+		WorkThread workThread = new WorkThread();
+		new Thread(workThread).start();
+	}
+
+}
+```
+
+#### 3. 使用Callable和Future创建线程
+
+Thread和Runnable的run()方法的返回值是void，它做的事只是单纯的去执行run()方法中的代码，而Java提供了Callable接口，可看做Runnable接口的增强版。Callable接口提供了一个call()方法作为线程执行体，call()方法可以有返回值，也可以声明抛出异常。但Callable接口不是Runnable接口的子接口，所以Callable对象不能作为Thread的target。而且call()方法有一个返回值——call()方法并不能直接调用，它是作为线程执行体被调用的。因此Java还提供了Future接口来代表Callable接口里call()方法的返回值，并未Future接口提供了一个FutureTask实现类，该实现类同时实现了Runnable接口——可以作为Thread类的target。这样Callable和FutureTask配合起来就可以实现多线程。
+
+这其实是一个很有用的功能，因为多线程相比单线程更难、更复杂的一个重要原因是因为多线程充满着未知，某个线程是否执行？某个线程执行了多久？某个线程执行的时候我们期望的数据是否已经完成？无法得知，我们只能等待这个线程任务执行完成。而Callable+FutureTask却可以获取线程运行结果，也可以在等待事件太长没有获取到结果的情况下取消该线程的任务。
+
+Callable+FutureTask实现多线程：
+
+1. 创建Callable接口的实现类，并实现call()方法，该call()方法即作为线程的执行体。
+2. 创建Callable实现类的实例，并使用FutureTask类来包装Callable对象，该FutureTask封装了Callable对象call()方法的返回值
+3. 使用FutureTask对象实例作为Thread的target创建并启动线程
+4. 调用FutureTask的get()方法来获得子线程的执行结果，该方法将导致程序阻塞，必须等到子线程结果后才会得到返回值。
+
+```java
+public class CallableTest {
+
+	static class WorkThread implements Callable<Integer>{
+
+		@Override
+		public Integer call() throws Exception {
+			// TODO Auto-generated method stub
+			// 线程执行体
+			int sum = 0;
+			for (int i = 1; i <= 100; i++) {
+				sum += i;
+			}
+			return sum;
+		}
+	}
+
+	public static void main(String[] args) throws InterruptedException, ExecutionException {
+		WorkThread workThread = new WorkThread();
+		FutureTask<Integer> futureTask = new FutureTask<>(workThread);
+		// 将futureTask作为target创建Thread对象并启动线程
+		new Thread(futureTask).start();
+		// 将阻塞直到线程执行完成并返回结果
+		System.out.println(futureTask.get());
+	}
+}
+```
 
 ### AysncTask
 
