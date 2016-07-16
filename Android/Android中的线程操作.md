@@ -4,7 +4,7 @@ Android沿用了Java的线程模型，其中的线程也分为主线程和子线
 
 ## Android中的线程形态
 
-Android中的线程异步方案除了传统的Thread以外，还包括AysncTask、HandlerThread以及IntentService，将依次介绍它们。
+Android中的线程异步方案除了传统的Thread以外，还包括AsyncTask、HandlerThread以及IntentService，将依次介绍它们。
 
 ### Java中的线程
 
@@ -109,7 +109,76 @@ public class CallableTest {
 }
 ```
 
-### AysncTask
+Runnable接口和Callable的性质类似，那么比较一个Thread和Runnable实现多线程的区别：
+* Java不支持多继承，如果继承Thread类实现多线程，则将失去继承他来的机会。因为实现Runnable接口还可以继承其他类
+* 实现Runnable接口，可以是多个线程Thread共享同一个target对象，适合多个线程来处理同一个资源的情况
+
+### AsyncTask
+
+AsyncTask是一种轻量级的异步任务，它可以在线程池中执行后台任务，然后把执行的进度和最终结果传递给主线程并在主线程中更新UI，从实现上来说，AsyncTask封装了Thread和Handler，通过AsyncTask可以更加方便的执行后台任务以及在主线程中访问UI。
+
+AsyncTask是一个抽象的泛型，他提供了Params、Progress和Result这三个泛型参数，其中Params表示参数类型，Progress表示后台任务的执行进度类型，而Result则表示后台任务的放回结果类型。如果AsyncTask确定不需具体的参数，那么这三个泛型参数可以用Void代替。
+
+AsyncTask提供了四个核心方法：
+
+* onPreExecute()，在主线程中执行，在异步任务开始执行之前，自方法会被调用，做一些准备工作。
+* doInBackground(Pramss...params)，在线程池中执行，此方法用于执行异步任务，params表示异步任务的输入参数。此方法中还可以通过publishProgress()方法来更新任务的进度，publishProgress()方法会调用onProgressUpdate()方法。此方法需要返回执行结果给onPostExecute()方法。
+* onProgressUpdate(Progress...values)，在主线程中执行，当后台执行任务的执行进度发生变化此方法会被调用
+* onPostExecute(Result result)，在主线程中执行，在异步任务执行完成后，此方法会被调用，其中result为后台任务的返回值，即doInBackground()的返回值。
+
+此外AsyncTask还提供一个onCancelled()方法，它同样在主线程中执行，当异步任务被取消时，onCancelled()方法会被调用，同时onPostExecute方法则不会被调用。
+
+```java
+class WorkTask extends AsyncTask<String, Void, Bitmap>{
+
+    @Override
+    protected void onProgressUpdate(Void... values) {
+    }
+
+    @Override
+    protected Bitmap doInBackground(String... params) {
+        HttpURLConnection connection = null;
+        try {
+            URL url = new URL(params[0]);
+            connection = (HttpURLConnection) url.openConnection();
+            connection.setRequestMethod("GET");
+            connection.setDoInput(true);
+            connection.setReadTimeout(5000);
+            connection.setConnectTimeout(5000);
+            connection.connect();
+            Bitmap bitmap = BitmapFactory.decodeStream(connection.getInputStream());
+            return bitmap;
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }finally {
+            if(connection != null){
+                connection.disconnect();
+            }
+        }
+        return null;
+    }
+
+    @Override
+    protected void onPostExecute(Bitmap bitmap) {
+
+    }
+
+    @Override
+    protected void onCancelled() {
+    }
+}
+```
+
+AsyncTask在具体使用过程中有一些限制：
+
+* AsyncTask类必须在主线程中加载。这个过程在Android4.1级以上版本已经被希望完成。
+* AsyncTask对象必须在主线程中创建
+* execute()方法必须在主线程中调用
+* 不能直接调用onPreExecute、doInBackground等方法
+* 一个AsyncTask对象只能执行一次，即只能调用一次execute()方法，否则会抛异常
+* 在Android1.6之前，AsyncTask是串行执行任务，Android1.6的时候AsyncTask开始采用线程池处理并行任务，但从Android3.0开始，为了避免AsyncTask带来的并发问题，AsyncTask又采用串行执行任务。但仍然可以使用executeOnExecutor()方法来并行执行任务。因为注意在串行状态下，不应该执行特别好使的任务，否则会造成任务对象阻塞。
 
 ### HandleThread
 
