@@ -26,5 +26,6 @@
 * [Android子线程真的不能更新UI么](http://www.cnblogs.com/lao-liang/p/5108745.html)
 * [EventBus](http://greenrobot.org/eventbus/)
 * [给 Android 开发者的 RxJava 详解](http://gank.io/post/560e15be2dca930e00da1083)
-* []()
-* []()
+* [Android性能优化之使用线程池处理异步任务  
+ ](http://blog.csdn.net/u010687392/article/details/49850803)
+* [AsyncTask源码分析](https://github.com/white37/AndroidSdkSourceAnalysis/blob/master/article/AsyncTask%E5%92%8CAsyncTaskCompat%E6%BA%90%E7%A0%81%E8%A7%A3%E6%9E%90.md)
