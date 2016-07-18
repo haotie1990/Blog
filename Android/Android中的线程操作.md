@@ -182,6 +182,53 @@ AsyncTask在具体使用过程中有一些限制：
 
 ### HandleThread
 
+HandlerThread继承Thread类，并在run()方法中通过Looper.prepare()创建消息队列，并通过Looper.loop()开启消息循环。这样使消息循环执行在子线程中，在构建Handler时使用此HandlerThread的Looper，那么Handler的消息处理handleMessage()都会在子线程中执行。由于HandlerThread的run()方法是一个无限的循环，因为当明确不需要再使用HandlerThread的时候，可以通过它的quit()或quitSafely()方法来执行消息循环。
+
+```java
+public class MainActivity extends AppCompatActivity {
+
+    WorkThread workThread = null;
+    WorkHandler workHandler = null;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+        //---
+
+        workThread = new WorkThread("Work_Thread");
+        workThread.start();
+        workHandler = new WorkHandler(workThread.getLooper());
+    }
+
+    @Override
+    protected void onDestroy() {
+        workThread.quitSafely();
+        super.onDestroy();
+    }
+
+    class WorkThread extends HandlerThread{
+
+        public WorkThread(String name) {
+            super(name);
+        }
+    }
+
+    class WorkHandler extends Handler{
+
+        public WorkHandler(Looper looper) {
+            super(looper);
+        }
+
+        @Override
+        public void handleMessage(Message msg) {
+            // 执行在工作线程中
+        }
+    }
+}
+```
+
 ### IntentService
 
 ## 线程池的使用
