@@ -184,6 +184,26 @@ AsyncTask在具体使用过程中有一些限制：
 
 HandlerThread继承Thread类，并在run()方法中通过Looper.prepare()创建消息队列，并通过Looper.loop()开启消息循环。这样使消息循环执行在子线程中，在构建Handler时使用此HandlerThread的Looper，那么Handler的消息处理handleMessage()都会在子线程中执行。由于HandlerThread的run()方法是一个无限的循环，因为当明确不需要再使用HandlerThread的时候，可以通过它的quit()或quitSafely()方法来执行消息循环。
 
+查看其源码中的run()方法：
+
+```java
+@Override
+public void run() {
+    mTid = Process.myTid();
+    Looper.prepare();
+    synchronized (this) {
+        mLooper = Looper.myLooper();
+        notifyAll();
+    }
+    Process.setThreadPriority(mPriority);
+    onLooperPrepared();
+    Looper.loop();
+    mTid = -1;
+}
+```
+
+使用方法：
+
 ```java
 public class MainActivity extends AppCompatActivity {
 
@@ -231,13 +251,147 @@ public class MainActivity extends AppCompatActivity {
 
 ### IntentService
 
+IntentService是一种特殊的Service，它继承了Service并且它是一个抽象类，必须继承IntentService的子类才能使用IntentService。IntentService可以用于执行后台耗时的任务，当任务执行完成后他会自动停止，同时由于IntentService是服务的原因，这导致它的优先级比单纯的线程要高，所有IntentService比较适合执行一些高优先级的后台任务，因为它的优先级不容易被系统杀死。实际上IntentService是封装了HandlerThread和Handler。
+
+当IntentService第一次启动时，它的onCreate()方法中会创建一个HandlerThread，然后使用它的Looper来构造一个Handler对象，这样这个Handler对象所发送的消息最终都会在线程HandlerThread中处理（Looper.loop()运行在线程的run()方法中）。
+
+```java
+//---
+private final class ServiceHandler extends Handler {
+    public ServiceHandler(Looper looper) {
+        super(looper);
+    }
+
+    @Override
+    public void handleMessage(Message msg) {
+		// onHandleIntent是抽象方法，子类必须实现此方法，并在
+		// 此方法中做后台耗时任务处理
+        onHandleIntent((Intent)msg.obj);
+        stopSelf(msg.arg1);
+    }
+}
+
+//---
+
+@Override
+public void onCreate() {
+    // TODO: It would be nice to have an option to hold a partial wakelock
+    // during processing, and to have a static startService(Context, Intent)
+    // method that would launch the service & hand off a wakelock.
+
+    super.onCreate();
+    HandlerThread thread = new HandlerThread("IntentService[" + mName + "]");
+    thread.start();
+
+    mServiceLooper = thread.getLooper();
+    mServiceHandler = new ServiceHandler(mServiceLooper);
+}
+```
+
+每次启动IntentService，它的onStartCommand()方法会被调用，随后又调用onStart()方法，在这里会处理IntentService启动的Intent携带的参数，然后通过mServiceHandler发送一个消息，消息的处理即是我们的后台任务。
+
+```java
+@Override
+public void onStart(Intent intent, int startId) {
+    Message msg = mServiceHandler.obtainMessage();
+    msg.arg1 = startId;
+    msg.obj = intent;
+    mServiceHandler.sendMessage(msg);
+}
+
+@Override
+public int onStartCommand(Intent intent, int flags, int startId) {
+    onStart(intent, startId);
+    return mRedelivery ? START_REDELIVER_INTENT : START_NOT_STICKY;
+}
+```
+
+前面的源码可以发现，当onHandleIntent()方法执行结束后会通过stopSelf()方法来尝试终止服务。如果目前IntentService只被启动了一次，那么onHandleIntent执行完成后，stopSelf就是立即结束服务；如果IntentService被启动了多次，那么当所有的后台任务的onHandleIntent执行完成后，stopSelf才会停止服务。这个策略的处理位于AMS的stopServiceTocken方法中。
+
+具体使用：
+
+```java
+public class WorkService extends IntentService {
+    // TODO: Rename actions, choose action names that describe tasks that this
+    // IntentService can perform, e.g. ACTION_FETCH_NEW_ITEMS
+    private static final String ACTION_FOO = "com.gky.adthread.action.FOO";
+    private static final String ACTION_BAZ = "com.gky.adthread.action.BAZ";
+
+    // TODO: Rename parameters
+    private static final String EXTRA_PARAM1 = "com.gky.adthread.extra.PARAM1";
+    private static final String EXTRA_PARAM2 = "com.gky.adthread.extra.PARAM2";
+
+    public WorkService() {
+        super("WorkService");
+    }
+
+    /**
+     * Starts this service to perform action Foo with the given parameters. If
+     * the service is already performing a task this action will be queued.
+     *
+     * @see IntentService
+     */
+    // TODO: Customize helper method
+    public static void startActionFoo(Context context, String param1, String param2) {
+        Intent intent = new Intent(context, WorkService.class);
+        intent.setAction(ACTION_FOO);
+        intent.putExtra(EXTRA_PARAM1, param1);
+        intent.putExtra(EXTRA_PARAM2, param2);
+        context.startService(intent);
+    }
+
+    /**
+     * Starts this service to perform action Baz with the given parameters. If
+     * the service is already performing a task this action will be queued.
+     *
+     * @see IntentService
+     */
+    // TODO: Customize helper method
+    public static void startActionBaz(Context context, String param1, String param2) {
+        Intent intent = new Intent(context, WorkService.class);
+        intent.setAction(ACTION_BAZ);
+        intent.putExtra(EXTRA_PARAM1, param1);
+        intent.putExtra(EXTRA_PARAM2, param2);
+        context.startService(intent);
+    }
+
+    @Override
+    protected void onHandleIntent(Intent intent) {
+        if (intent != null) {
+            final String action = intent.getAction();
+            if (ACTION_FOO.equals(action)) {
+                final String param1 = intent.getStringExtra(EXTRA_PARAM1);
+                final String param2 = intent.getStringExtra(EXTRA_PARAM2);
+                handleActionFoo(param1, param2);
+            } else if (ACTION_BAZ.equals(action)) {
+                final String param1 = intent.getStringExtra(EXTRA_PARAM1);
+                final String param2 = intent.getStringExtra(EXTRA_PARAM2);
+                handleActionBaz(param1, param2);
+            }
+        }
+    }
+
+    /**
+     * Handle action Foo in the provided background thread with the provided
+     * parameters.
+     */
+    private void handleActionFoo(String param1, String param2) {
+        // TODO: Handle action Foo
+        throw new UnsupportedOperationException("Not yet implemented");
+    }
+
+    /**
+     * Handle action Baz in the provided background thread with the provided
+     * parameters.
+     */
+    private void handleActionBaz(String param1, String param2) {
+        // TODO: Handle action Baz
+        throw new UnsupportedOperationException("Not yet implemented");
+    }
+}
+```
+
 ## 线程池的使用
-
-## 第三方异步方案
-
-### EventBus
-
-### RxJava
 
 # 参考
 
