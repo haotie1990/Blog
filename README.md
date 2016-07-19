@@ -25,3 +25,4 @@
  * [Markdown操作手册](Other/Markdown操作手册.md)
  * [GitHub及Git的使用](Other/GitHub及Git的使用.md)
  * [Android再学习计划](README.md)
+ * [Glibc的升级安装过程](Other/Glibc的升级安装过程.md)
