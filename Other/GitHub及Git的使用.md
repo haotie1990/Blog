@@ -55,11 +55,11 @@
 
 ![](../Image/20160530172827.jpg)
 
-#### 2.1 将本地Git仓库与GitHub仓库关联，此处使用HTTPS协议的仓库地址，也可以使用SSH协议的仓库地址，但使用SSH协议的地址需要SSH Key（后面介绍）。
+#### 2.1 将本地Git仓库与GitHub仓库关联，此处使用HTTPS协议的仓库地址，也可以使用SSH协议的仓库地址。
 
 ![](../Image/20160530173949.jpg)
 
-
+> 这里使用了HTTPS协议来推送，这样Git服务器每次都会询问用户名和密码，如果不想每次推送都输入用户名和密码，可以设置一个`credential cache`来保存用户名和密码几分钟。也可以使用`store`模式永久的保存用户名和密码，`git config --global credential.helper cache`
 
 ## Git的日常使用
 
