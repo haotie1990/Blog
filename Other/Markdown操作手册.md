@@ -1,13 +1,15 @@
+
 ### Markdown操作手册
+
 ***
 #### 1. 标题
 
 标题采用 **\#\+空格\+文字** 的方式
-    
+
     # 一级标题
     ## 二级标题
     ### 三级标题
-    
+
 #### 2. 段落和换行
 
 ```
@@ -16,7 +18,7 @@
 （中间空一行）
 第一行
 ```
-    
+
 #### 3. 列表
 
 >无序的列表使用符号： __\*&nbsp;&nbsp;&nbsp;&nbsp;\+&nbsp;&nbsp;\-&nbsp;&nbsp;后面跟空格__
@@ -29,12 +31,12 @@
 
     - 第一行
     - 第二行
-    
+
 >有序的列表使用： **数字&nbsp;&nbsp;&nbsp;&nbsp;**+&nbsp;&nbsp;&nbsp;&nbsp;**.**&nbsp;&nbsp;&nbsp;&nbsp;+&nbsp;&nbsp;&nbsp;&nbsp;**空格**
 
     1. 第一行
     2. 第二行
-    
+
 #### 4.强调
 **加黑**&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*斜体*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;==高亮==&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;~~删除线~~&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;++下划线++
 
@@ -58,7 +60,7 @@
 ***
 
     分隔线采用三个连续的-或者*字符
-    
+
 #### 6.代码和代码块
 `public void main(String args){};`
 ```Java
@@ -71,7 +73,7 @@ public void main(String args){
     其中可以采用如下方式，实现代码语法高亮
     ```Java(代码语言)
     ```
-    
+
 #### 7. 图片和链接
 
 ![图片](https://upload.wikimedia.org/wikipedia/commons/4/48/Markdown-mark.svg)
@@ -128,3 +130,4 @@ public void main(String args){
 >这块区域有竖线标注
 >
 >只有>的行可形成空行
+
