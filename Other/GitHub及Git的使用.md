@@ -193,9 +193,118 @@ git stash [save [-p|--patch] [-k|--[no-]keep-index] [-q|--quiet]       [-u|--inc
 
 ### 3. 标签管理
 
+像其他版本控制系统（VCS）一样，Git可以给历史中的某个提交打上标签，以示重要。
+
+### 3.1 创建标签
+
+Git的标签主要分两种：轻量标签（lightweight）和附注标签（annotated）。
+
+轻量标签很像一个不会改变的分支，它只是一个特定提交的引用。
+
+```shell
+$ git tag v1.0
+$ git tag
+v1.0
+```
+附注标签则是存储在Git数据库中的一个完整对象，它包含了大标签者的名字、电子邮件地址、日期时间和标签描述等信息。
+
+```shell
+$ git tag -a v1.1 -m "version 1.1"
+$ git tag
+v1.0
+v1.1
+$ git show v1.1
+tag v1.1
+Tagger: haotie1990 <haotie1990@gmail.com>
+Date:   Mon Jul 25 10:50:23 2016 +0800
+
+version 1.1
+
+commit 37d260f36c846d56249d48eaf17157bf883291fe
+Author: haotie1990 <haotie1990@foxmail.com>
+Date:   Tue Jun 14 10:36:12 2016 +0800
+
+    完成DEV1的开发工作
+
+diff --git a/README.md b/README.md
+index dd6e1c6..cc09539 100644
+--- a/README.md
++++ b/README.md
+@@ -12,4 +12,6 @@
+
+ ### 6. 修复一个Bug第三部分
+
+-### 7. 开发DEV1第一部分
+\ No newline at end of file
++### 7. 开发DEV1第一部分^M
++^M
++### 8. 完成DEV1的开发工作
+\ No newline at end of file
+
+```
+
+### 3.2 共享标签
+
+默认情况下`git push`命令并不会把标签传送到远程版本库中， 在创建标签后必须显示的推送标签到远程版本库中。这个过程和推送分支到远程版本库时一样的。
+
+```shell
+$ git push origin v1.1
+Counting objects: 26, done.
+Delta compression using up to 4 threads.
+Compressing objects: 100% (18/18), done.
+Writing objects: 100% (26/26), 2.23 KiB | 0 bytes/s, done.
+Total 26 (delta 9), reused 0 (delta 0)
+To https://github.com/haotie1990/xxx.git
+ * [new tag]         v1.1 -> v1.1
+```
+
 ### 4. 自定义Git
+
+在前面我们曾经设置过Git的用户名和邮箱，同样我们也可以定义Git的一些其他配置。
+
+### 4.1 忽略特殊文件
+
+有些时候，我们并不希望把所有文件都放入版本库中去，我们希望忽略一些文件不再追踪。这个时候可以在Git工作区的根目录下面创建一个`.gitignore`文件，然后把需要忽略的文件夹、文件类型或者文件名添加进去，Git就会自动忽略这些文件。
+
+语法规范：
+* 空行或者以`#`开头的行即注释行
+* 在前面添加`/`斜杠规避递归检查
+* 在后面添加`/`斜杠来忽略文件夹
+* 使用`!`来否定忽略
+* 使用`*`来匹配零个或多个字符
+
+```
+# 忽略 .a 文件
+*.a
+# 但否定忽略 lib.a, 尽管已经在前面忽略了 .a 文件
+!lib.a
+# 仅在当前目录下忽略 TODO 文件， 但不包括子目录下的 subdir/TODO
+/TODO
+# 忽略 build/ 文件夹下的所有文件
+build/
+# 忽略 doc/notes.txt, 不包括 doc/server/arch.txt
+doc/*.txt
+# 忽略所有的 .pdf 文件 在 doc/ directory 下的
+doc/**/*.pdf
+```
+### 4.2 设置别名
+
+配置Git还有一个很重要的功能就是可以为命令设置别名，免除了每次查看状态、提交代码等都要输入一连串的命令。
+
+```
+$ git config --global alias.co checkout
+$ git config --global alias.cim "commit -m"
+$ git config --global alias.br branch
+$ git config --global --list
+alias.br=branch
+alias.co=checkout
+alias.lg=log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit
+alias.st=status
+alias.cim=commit -m
+```
 
 # 参考
 * <http://www.liaoxuefeng.com/wiki/0013739516305929606dd18361248578c67b8067c8c017b000>
 * <http://www.worldhello.net/gotgithub/index.html>
 * <https://git-scm.com/book/zh/v2>
+* <http://www.jianshu.com/p/ea6341224e89>
