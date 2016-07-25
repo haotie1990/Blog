@@ -184,6 +184,26 @@ AsyncTask在具体使用过程中有一些限制：
 
 HandlerThread继承Thread类，并在run()方法中通过Looper.prepare()创建消息队列，并通过Looper.loop()开启消息循环。这样使消息循环执行在子线程中，在构建Handler时使用此HandlerThread的Looper，那么Handler的消息处理handleMessage()都会在子线程中执行。由于HandlerThread的run()方法是一个无限的循环，因为当明确不需要再使用HandlerThread的时候，可以通过它的quit()或quitSafely()方法来执行消息循环。
 
+查看其源码中的run()方法：
+
+```java
+@Override
+public void run() {
+    mTid = Process.myTid();
+    Looper.prepare();
+    synchronized (this) {
+        mLooper = Looper.myLooper();
+        notifyAll();
+    }
+    Process.setThreadPriority(mPriority);
+    onLooperPrepared();
+    Looper.loop();
+    mTid = -1;
+}
+```
+
+使用方法：
+
 ```java
 public class MainActivity extends AppCompatActivity {
 
@@ -231,13 +251,219 @@ public class MainActivity extends AppCompatActivity {
 
 ### IntentService
 
+IntentService是一种特殊的Service，它继承了Service并且它是一个抽象类，必须继承IntentService的子类才能使用IntentService。IntentService可以用于执行后台耗时的任务，当任务执行完成后他会自动停止，同时由于IntentService是服务的原因，这导致它的优先级比单纯的线程要高，所有IntentService比较适合执行一些高优先级的后台任务，因为它的优先级不容易被系统杀死。实际上IntentService是封装了HandlerThread和Handler。
+
+当IntentService第一次启动时，它的onCreate()方法中会创建一个HandlerThread，然后使用它的Looper来构造一个Handler对象，这样这个Handler对象所发送的消息最终都会在线程HandlerThread中处理（Looper.loop()运行在线程的run()方法中）。
+
+```java
+//---
+private final class ServiceHandler extends Handler {
+    public ServiceHandler(Looper looper) {
+        super(looper);
+    }
+
+    @Override
+    public void handleMessage(Message msg) {
+		// onHandleIntent是抽象方法，子类必须实现此方法，并在
+		// 此方法中做后台耗时任务处理
+        onHandleIntent((Intent)msg.obj);
+        stopSelf(msg.arg1);
+    }
+}
+
+//---
+
+@Override
+public void onCreate() {
+    // TODO: It would be nice to have an option to hold a partial wakelock
+    // during processing, and to have a static startService(Context, Intent)
+    // method that would launch the service & hand off a wakelock.
+
+    super.onCreate();
+    HandlerThread thread = new HandlerThread("IntentService[" + mName + "]");
+    thread.start();
+
+    mServiceLooper = thread.getLooper();
+    mServiceHandler = new ServiceHandler(mServiceLooper);
+}
+```
+
+每次启动IntentService，它的onStartCommand()方法会被调用，随后又调用onStart()方法，在这里会处理IntentService启动的Intent携带的参数，然后通过mServiceHandler发送一个消息，消息的处理即是我们的后台任务。
+
+```java
+@Override
+public void onStart(Intent intent, int startId) {
+    Message msg = mServiceHandler.obtainMessage();
+    msg.arg1 = startId;
+    msg.obj = intent;
+    mServiceHandler.sendMessage(msg);
+}
+
+@Override
+public int onStartCommand(Intent intent, int flags, int startId) {
+    onStart(intent, startId);
+    return mRedelivery ? START_REDELIVER_INTENT : START_NOT_STICKY;
+}
+```
+
+前面的源码可以发现，当onHandleIntent()方法执行结束后会通过stopSelf()方法来尝试终止服务。如果目前IntentService只被启动了一次，那么onHandleIntent执行完成后，stopSelf就是立即结束服务；如果IntentService被启动了多次，那么当所有的后台任务的onHandleIntent执行完成后，stopSelf才会停止服务。这个策略的处理位于AMS的stopServiceTocken方法中。
+
+具体使用：
+
+```java
+public class WorkService extends IntentService {
+    // TODO: Rename actions, choose action names that describe tasks that this
+    // IntentService can perform, e.g. ACTION_FETCH_NEW_ITEMS
+    private static final String ACTION_FOO = "com.gky.adthread.action.FOO";
+    private static final String ACTION_BAZ = "com.gky.adthread.action.BAZ";
+
+    // TODO: Rename parameters
+    private static final String EXTRA_PARAM1 = "com.gky.adthread.extra.PARAM1";
+    private static final String EXTRA_PARAM2 = "com.gky.adthread.extra.PARAM2";
+
+    public WorkService() {
+        super("WorkService");
+    }
+
+    /**
+     * Starts this service to perform action Foo with the given parameters. If
+     * the service is already performing a task this action will be queued.
+     *
+     * @see IntentService
+     */
+    // TODO: Customize helper method
+    public static void startActionFoo(Context context, String param1, String param2) {
+        Intent intent = new Intent(context, WorkService.class);
+        intent.setAction(ACTION_FOO);
+        intent.putExtra(EXTRA_PARAM1, param1);
+        intent.putExtra(EXTRA_PARAM2, param2);
+        context.startService(intent);
+    }
+
+    /**
+     * Starts this service to perform action Baz with the given parameters. If
+     * the service is already performing a task this action will be queued.
+     *
+     * @see IntentService
+     */
+    // TODO: Customize helper method
+    public static void startActionBaz(Context context, String param1, String param2) {
+        Intent intent = new Intent(context, WorkService.class);
+        intent.setAction(ACTION_BAZ);
+        intent.putExtra(EXTRA_PARAM1, param1);
+        intent.putExtra(EXTRA_PARAM2, param2);
+        context.startService(intent);
+    }
+
+    @Override
+    protected void onHandleIntent(Intent intent) {
+        if (intent != null) {
+            final String action = intent.getAction();
+            if (ACTION_FOO.equals(action)) {
+                final String param1 = intent.getStringExtra(EXTRA_PARAM1);
+                final String param2 = intent.getStringExtra(EXTRA_PARAM2);
+                handleActionFoo(param1, param2);
+            } else if (ACTION_BAZ.equals(action)) {
+                final String param1 = intent.getStringExtra(EXTRA_PARAM1);
+                final String param2 = intent.getStringExtra(EXTRA_PARAM2);
+                handleActionBaz(param1, param2);
+            }
+        }
+    }
+
+    /**
+     * Handle action Foo in the provided background thread with the provided
+     * parameters.
+     */
+    private void handleActionFoo(String param1, String param2) {
+        // TODO: Handle action Foo
+        throw new UnsupportedOperationException("Not yet implemented");
+    }
+
+    /**
+     * Handle action Baz in the provided background thread with the provided
+     * parameters.
+     */
+    private void handleActionBaz(String param1, String param2) {
+        // TODO: Handle action Baz
+        throw new UnsupportedOperationException("Not yet implemented");
+    }
+}
+```
+
 ## 线程池的使用
 
-## 第三方异步方案
+系统启动一个新的线程的成本是比较高的，同时当系统中有大量并发线程的时候，也会导致系统性能下降，甚至造成JVM崩溃。因此使用线程池也是在多线程开发工作的必须要求。合理的使用线程池可以达到：
+* 重用线程池中的线程，避免因为线程的创建和销毁带来系统性能的开销
+* 能有效的控制线程池的最大并发数，避免因大量的线程之间互相抢占资源而导致阻塞现象
+* 能对线程进行简单的控制，并提供定时执行以及制定间隔循环执行等功能
 
-### EventBus
+Android中的线程池来自java中的线程池`Executor`，但真正线程池的实现为`ThreadPoolExecutor`。`ThreadPoolExecutor`提供了一系列参数来配置线程池，通过不同的参数可以创建不同的线程池。
 
-### RxJava
+一个典型的`ThreadPoolExecutor`构造函数为：
+
+```
+public ThreadPoolExecutor(int corePoolSize,
+		                  int maximumPoolSize,
+		                  long keepAliveTime,
+		                  TimeUnit unit,
+		                  BlockingQueue<Runnable> workQueue,
+		                  ThreadFactory threadFactory)
+```
+
+* corePoolSize：线程池的默认核心线程数，默认情况下，核心线程会一直存活，即使它们处于闲置状态。
+* maximumPoolSize：线程池所能容纳的最大线程数，当活动线程数达到这个数值后，后续的心任务将会被阻塞。
+* keepAliveTime：非核心线程闲置时的超时时长，超过这个时长，非核心线程将被回收。
+* unit：用于指定`keepAliveTime`的时间单位，常有的TimeUnit.MILLISECONDS、TimeUnit.SECONDS。
+* workQueue：线程池中的任务队列，通过线程池的`execute`方法提交的Runnable对象会存储在这个任务队列中
+* threadFactory：线程工厂，为线程池提供创建新线程的功能
+
+ThreadPoolExecutor执行任务时遵循如下规则：
+* 如果线程池的线程数量未达到核心线程的数量，那么会直接启动一个核心线程来执行任务
+* 如果线程池中国的线程达到或超过核心线程数量，那么会将任务插入到任务队列中排队等待执行
+* 如果上述过程中无法向任务队列中插入任务，说明此事任务队列已满，这个时候如果线程池中的线程未达到线程池的最大线程数，那么会立刻启动一个非核心线程来执行任务
+* 如果上述过程中线程池中的线程数量已经达到线程池的最大线程数，那么拒绝执行此任务，并且会调用RejectedExecutionHandler的rejectedExecution方法来同志调用者，默认情况下抛出rejectedExecutionException异常。
+
+在实际开发过程中，很少直接使用ThreadPoolExecutor来创建线程池。Java中提供了一个Executors工厂类来生产线程，该工厂类包含如下几个静态工厂方法来创建线程池:
+1. newCachedThreadPool()：创建一个具有缓存功能的线程池，系统会根绝需要来创建线程，这些线程将会被缓存在线程池中
+2. newFixedThreadPool(int nThreads)：创建一个可重用的、具有固定线程数量的线程池
+3. newSingleThreadPool()：创建一个只有单线程的线程池
+4. newScheduledThreadPool(int corePoolSize)：创建一个具有指定核心线程数量的线程池，它可以再指定的延迟时间后执行任务
+5. newSingleThreadScheduleExecutor()：创建一个线程的线程池，它可以再指定的延迟后执行任务
+
+上面五个静态方法中，前三个会返回一个ExecutorService对象，该对象代表一个线程池，它可以执行Runnable或Callable对象代表的线程；后连个方法返回一个ScheduledExecutorService对象，它是ExecutorService的子类，可以在指定延迟后执行任务
+
+```java
+public class ThreadPoolTest {
+
+	static class WorkRunnable implements Runnable{
+
+		int id = -1;
+
+		public WorkRunnable(int id) {
+			super();
+			this.id = id;
+		}
+
+		@Override
+		public void run() {
+			// TODO Auto-generated method stub
+			System.out.println("id:"+id);
+		}
+
+	}
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+		ExecutorService executor = Executors.newSingleThreadExecutor();
+
+		//当线程池有空闲线程时执行线程任务
+		executor.submit(new WorkRunnable(1001));
+		//立刻执行线程任务
+		executor.execute(new WorkRunnable(1002));
+	}
+}
+```
 
 # 参考
 
