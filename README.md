@@ -14,6 +14,7 @@
  * [Android网络操作之OkHttp](Android/Android网络操作之OkHttp.md)
  * [Android内存泄露](Android/Android内存泄露.md)
  * [Activity的生命周期和启动模式](Android/Activity的生命周期和启动模式.md)
+ * [Android四大组件时序图](Android/Android四大组件的启动流程时序图.md)
 
 * [Java](/Java/Java目录索引.md)
 
@@ -24,3 +25,4 @@
  * [Markdown操作手册](Other/Markdown操作手册.md)
  * [GitHub及Git的使用](Other/GitHub及Git的使用.md)
  * [Android再学习计划](README.md)
+ * [Glibc的升级安装过程](Other/Glibc的升级安装过程.md)
