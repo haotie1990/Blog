@@ -140,6 +140,8 @@ git push origin branch_name:branch_name
 
 ![](../Image/20160722150907.png)
 
+而有些时候又是需要我们从远程版本库中拉取分支到本地，然后在此分支上开发。从一个远程分支检出一个本地分支就会自动的创建一个“跟踪分支”。当克隆一个远程版本库时，默认会创建一个跟踪`origin/master`的`master`分支。我们当热也可以远程版本库的其他分支的跟踪分支，只需要使用`git checkout -b [branc] [remotename]/[branch]`命令即可。
+
 #### 2.2 分支切换
 
 如果需要切换到某个分支上去，需要使用`git checkout`命令，如下即切换到`dev`分支上。
