@@ -19,3 +19,5 @@
 * [Android四大组件时序图](Android四大组件的启动流程时序图.md)
 
 * [Android中的线程操作](Android中的线程操作.md)
+
+* [Android中的Intent须知](关于Intent需要知道的.md)

@@ -16,6 +16,7 @@
  * [Activity的生命周期和启动模式](Android/Activity的生命周期和启动模式.md)
  * [Android四大组件时序图](Android/Android四大组件的启动流程时序图.md)
  * [Android中的线程操作](Android/Android中的线程操作.md)
+ * [Android中的Intent须知](Android/关于Intent需要知道的.md)
 
 * [Java](/Java/Java目录索引.md)
 
