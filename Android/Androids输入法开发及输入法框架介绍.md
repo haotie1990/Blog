@@ -1,4 +1,4 @@
-# Android输入法开发及输入法框架介绍
+# Android输入法框架介绍
 
 ## 输入法的启动过程
 
@@ -20,13 +20,21 @@
 2. 在onServiceConnection回调中，调用IMS的attachTocken()将当前窗口在WmS中对应的tocken告知IMS。调用IMS的createSession()方法创建一个Sesstion Binder，随后IMMS会把这个Binder传递给输入窗口的IMM中，以便输入窗口可以直接和IMS通信。
 3. 调用attachNewInputLocked()方法，将输入窗口中可编辑View的InputConnection Binder传递给IMS，将IMS的InputMethodSession Binder传递给输入窗口的IMM。至此IMS的启动完成，下面进行输入法的显示
 
-下图是IMS的启动过程，其中IMMS（InputMethodManagerService）、IMS（InputMethodService）、ASIMS（AbstractInputMethodService）、IMI（InputMethodImpl）、IMW（InputMethodImpl）、IMM（InputMethodManager）。
+下图是IMS的启动过程，其中IMMS（InputMethodManagerService）、IMS（InputMethodService）、ASIMS（AbstractInputMethodService）、IMI（InputMethodImpl）、IIMW（IInputMethodWrapper）、IMM（InputMethodManager）。
 
 ![](../Image/Start InputMethod.png)
 
 ## 输入法的显示
 
+当需要显示输入法窗口进行输入时，会调用到IMM的showSoftInput()方法，随后会调用到IMMS的同名方法。在IMMS中通过异步机制发出一个MSG_SHOW_SOFT_INPUT的消息，消息被处理执行IMW的同名函数showSoftInput()随后又转到IMS的同名方法showSoftInput()进入IMS的窗口创建和显示过程。
 
+下图是显示输入法的时序图：
+
+![](../Image/Show Input Method.png)
+
+进入IMS的showSoftInput()方法后的流程图
+
+![](../Image/Show InputMethod.jpg)
 
 # 参考
 
