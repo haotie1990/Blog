@@ -9,3 +9,5 @@
 * [Android ProGuard(混淆)](http://www.jianshu.com/p/60e82aafcfd0)
 
 * [ProGuard](http://proguard.sourceforge.net/)
+
+* [Android Studio 代码混淆注意问题](http://android.jobbole.com/84057/)
