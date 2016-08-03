@@ -17,6 +17,7 @@
  * [Android四大组件时序图](Android/Android四大组件的启动流程时序图.md)
  * [Android中的线程操作](Android/Android中的线程操作.md)
  * [Android中的Intent须知](Android/关于Intent需要知道的.md)
+ * [Android输入法框架介绍](Android/Android输入法开发及输入法框架介绍.md)
 
 * [Java](/Java/Java目录索引.md)
 
