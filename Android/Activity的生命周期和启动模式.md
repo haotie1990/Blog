@@ -71,6 +71,20 @@ android:configChanges="orientation|keybordHidden|screenSize“
 * FLAG_ACTIVITY_CLEAR_TOP：具有此标记的Activity，在它启动时，同一个任务栈中所有位于它上面的Activity都要出栈
 * FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS：具有此标记的Activity不会出现在历史Activity的列表中
 
+## Activity启动模式的使用
+
+**singleTop**
+
+适合那些接收到通知而启动显示内容的页面，例如：某个新闻客户端的新闻内容页面，因为如果收到10新闻推送，打开十个页面既耗费资源用户在返回时也很头疼。
+
+**singleTask**
+
+适合作为程序的主入口，例如浏览器的主页，不管从多少个应用打开浏览器，之后会启动主页一次，其余每次都是走onNewIntent，并且会清空主页面前面的页面
+
+**singleInstance**
+
+独立功能页面，例如闹铃的提醒页面，我们首先进入闹钟设置界面设置闹钟，然后按HOME键回到主页，随后又进入微信聊天，此时闹钟提醒启动，我们关掉闹钟返回到微信聊天页面。因为闹钟提醒页面所在的返回栈只有一个Activity，退出后此返回栈为空则返回到微信了解页面。如果是singleTask则会返回到闹钟设置页面。
+
 # 参考
 
 * [任务和返回栈](https://developer.android.com/guide/components/tasks-and-back-stack.html)
