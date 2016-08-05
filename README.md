@@ -18,6 +18,7 @@
  * [Android中的线程操作](Android/Android中的线程操作.md)
  * [Android中的Intent须知](Android/关于Intent需要知道的.md)
  * [Android输入法框架介绍](Android/Androids输入法开发及输入法框架介绍.md)
+ * [Android事件分发及处理](Android/Touch事件分发流程.md)
 
 * [Java](/Java/Java目录索引.md)
 
