@@ -30,3 +30,4 @@
  * [GitHub及Git的使用](Other/GitHub及Git的使用.md)
  * [Android再学习计划](README.md)
  * [Glibc的升级安装过程](Other/Glibc的升级安装过程.md)
+ * [面试预案](Other/面试预案.md)
