@@ -12,7 +12,7 @@ Activity的生命周期分两种情况，一种是典型情况下的生命周期
 |:-----|:-------|:----------|
 |onCreate|Activity被创建|做初始化工作，例如setContentView加载布局资源，初始化数据|
 |onRestart|Activity正在重新启动|--|
-|onStart|Activity正在被启动，其已经显示但为进入前台无法交互|--|
+|onStart|Activity正在被启动，其已经显示但未进入前台无法交互|--|
 |onResume|Activity可见并可以和用户交互|开启动画，初始化设备连接，例如相机等|
 |onPause|Activity正在停止|保存数据，停止动画，但不能耗时否则会影响下一个Activity的显示|
 |onStop|Activity即将停止切对用户不可见|做一些回收工作|
@@ -44,7 +44,7 @@ Activity生命周期发生变化，还有一种情况就是异常的生命周期
 
 所以一般情况下，我们采用在AndroidManifest.xml中如下配置防止系统配置发生改变导致Activity销毁重启：
 ```
-android:configChanges="orientation|keybordHidden|screenSize“
+android:configChanges="orientation|keybordHidden|screenSize"
 ```
 
 此时如果系统配置发生改变，将会回调`onConfigurationChanged(Configuration)`方法。
@@ -55,7 +55,7 @@ android:configChanges="orientation|keybordHidden|screenSize“
 
 |启动模式|功能|
 |:-----|:------------|
-|standard|系统默认启动模式，每次启动一个Activity都会重新穿件一个新的实例，不管这个实例是否已经存在。在这种模式下，谁启动了这个Activity，那么这个Activity就运行在启动它的按个Activity所在的任务栈中|
+|standard|系统默认启动模式，每次启动一个Activity都会重新创建一个新的实例，不管这个实例是否已经存在。在这种模式下，谁启动了这个Activity，那么这个Activity就运行在启动它的按个Activity所在的任务栈中|
 |singleTop|栈顶复用模式，如果新的Activity已经位于任务栈的栈顶，那么次Activity不会被重新创建，同时它的onNewIntent方法会被回调|
 |singleTask|栈内复用模式，这是一种单例模式，在这种模式下，如果Activity声明的taskAffinity任务栈存在，这个时候检查此任务栈是否有此Activity的实例，如果存在实例，就把此Activity上面的的Activity销毁并将此Activity移至栈顶，如果实例不存在，就创建Activity并压入栈。如果不存在指定的任务栈，就重新创建任务栈，然后创建Activity实例并压入栈|
 |singleInstance|单例模式，这是一种加强的singleTask模式，但是具有此模式的Activity只能单独位于一个任务栈中。即其他Activity启动此模式的Activity都会单独创建任务栈，由此Activity启动的任何Activity也均在单独的任务栈中打开|

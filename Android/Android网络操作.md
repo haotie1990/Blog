@@ -59,7 +59,7 @@ Socket，一个应用程序接口，使主机或一台计算机上的进程间�
 
 #### 3.2 HTTPS协议
 
-`HTTPS`(HyperText Transfer Protocol Over Secure Socket Layer)，以安全为目的的HTTP通道。HTTPS的安全基础是`SST/TSL`，`SSL`(Secure Sockets Layer, 安全套接层)是网景公司开发为了解决`HTTP`协议明文传输会造成内容被嗅探和篡改问题的加密协议，后来由于`SSL`的应用广泛，IETF就把`SSL`协议标准化，标准化之后改名为`TLS`(Transport Layer Security, 传输层安全协议)，因此两者可以视为同一个东西的不同阶段。
+`HTTPS`(HyperText Transfer Protocol Over Secure Socket Layer)，以安全为目的的HTTP通道。HTTPS的安全基础是`SSL/TSL`，`SSL`(Secure Sockets Layer, 安全套接层)是网景公司开发为了解决`HTTP`协议明文传输会造成内容被嗅探和篡改问题的加密协议，后来由于`SSL`的应用广泛，IETF就把`SSL`协议标准化，标准化之后改名为`TLS`(Transport Layer Security, 传输层安全协议)，因此两者可以视为同一个东西的不同阶段。
 
 #### 3.3 URL
 
@@ -71,7 +71,7 @@ schema://host[:port#]/path/../[?query-string][#anchor]
 
 * `schema`：指定底层使用的协议，例如http，https，ftp
 * `host`：http服务器的IP地址或者域名
-* `port#`：http服务器的默认端口是80，这种情况下可以省略。如果使用了逼的端口必须指明，例如`http://127.0.0.1:8085`
+* `port#`：http服务器的默认端口是80，这种情况下可以省略。如果使用了其他的端口必须指明，例如`http://127.0.0.1:8085`
 * `path`：访问资源的路径
 * `query-string`：发送给http服务器的数据
 * `anchor`： 锚
@@ -240,7 +240,7 @@ httpConnection.disconnect();
 
 HttpURLConnection是基于HTTP协议，但其底层是通过TCP Socket通信实现的，如果不设置超时，在网络异常的情况下，可能会导致程序僵死而不继续往下执行。可以通过`setConnectTimeout`和`setReadTimeout`设置连接超时和读超时。
 
-HttpURLConnection出了支持简单的HTTP请求还支持更多的Authentication、Sessions、Cookies和Response Caching，更多的是用可以参考Android开发者网站的介绍](https://developer.android.com/reference/java/net/HttpURLConnection.html)
+HttpURLConnection除了支持简单的HTTP请求还支持更多的Authentication、Sessions、Cookies和Response Caching，更多的是用可以参考Android开发者网站的介绍](https://developer.android.com/reference/java/net/HttpURLConnection.html)
 
 前面的`URLConnection`和`HttpURLConnection`都是抽象类，真正的实现类是`sun.net.www.protocol.http`包下的[`HttpURLConnection`](http://grepcode.com/file/repository.grepcode.com/java/root/jdk/openjdk/8u40-b25/sun/net/www/protocol/http/HttpURLConnection.java#HttpURLConnection)
 
@@ -295,7 +295,7 @@ httpResponse.close();
 httpClient.close();
 ```
 
-HttpClient提供的API众多，以上只是简单使用，更多的可以参考官网提供的样例，·[HttpClient官网事例](http://hc.apache.org/httpcomponents-client-ga/examples.html#)
+HttpClient提供的API众多，以上只是简单使用，更多的可以参考官网提供的样例，[HttpClient官网事例](http://hc.apache.org/httpcomponents-client-ga/examples.html#)
 
 ### 4. HttpURLConnection和HttpClient区别
 
