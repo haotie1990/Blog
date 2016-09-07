@@ -178,7 +178,7 @@ mClient = new OkHttpClient.Builder()
 
 ## OkHttp的拦截机制
 
-拦截器是OkHttp提供的对HTTP请求和响应进行统一吃努力的强大机制拦截器在执行的时候，可以先对请求的`Request`进行修改，再得到响应的`Response`后，再对其进行修改后返回。拦截器对象`Interceptor`接口包含一个`intercept`方法，其参数是`Chain`对象。`Chain`对象表示的是当前的拦截器链条，通过`Chain`的`request()`方法可以获取当前的`Request`对象。在使用完`Request`对象后，通过`Chain`对象的`proceed()`方法来继续拦截器链条的执行。
+拦截器是OkHttp提供的对HTTP请求和响应进行统一处理的强大机制拦截器在执行的时候，可以先对请求的`Request`进行修改，再得到响应的`Response`后，再对其进行修改后返回。拦截器对象`Interceptor`接口包含一个`intercept`方法，其参数是`Chain`对象。`Chain`对象表示的是当前的拦截器链条，通过`Chain`的`request()`方法可以获取当前的`Request`对象。在使用完`Request`对象后，通过`Chain`对象的`proceed()`方法来继续拦截器链条的执行。
 
 OkHttp中的拦截器分成应用拦截器和网络拦截器。应用拦截器对于每一个HTTP请求都只会调用一次，可以通过不调用`Chain.proceed`方法来终止请求，也可以通过多次调用`Chain.proceed`方法来进行重试。网络拦截器对于调用执行过程中的重定向和重试所产生的响应也会调用，而如果响应来自缓存，则不会调用。
 

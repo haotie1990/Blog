@@ -108,7 +108,7 @@ public static void main(String[] args)
 
 5.非静态内部类和外部模块的引用
 
-非静态内部类和匿名内部类都会隐式的持有期外部类的引用，如果内部类生命周期长过其外部类就会造成内存泄露。对于外部模块，如果调用了其方法，例如：`public void registerMsg(Object b)`这种调用传入了一个对象，很可能外部模块就保持了该对象的引用，这时候需要注意外部模块是否提供了相应的去除操作。
+非静态内部类和匿名内部类都会隐式的持有其外部类的引用，如果内部类生命周期长过其外部类就会造成内存泄露。对于外部模块，如果调用了其方法，例如：`public void registerMsg(Object b)`这种调用传入了一个对象，很可能外部模块就保持了该对象的引用，这时候需要注意外部模块是否提供了相应的去除操作。
 
 6.单例模式
 
@@ -144,7 +144,7 @@ public class SampleActivity extends Activity {
 }
 ```
 
-当一个Handler在主线程进行初始化之后，我们发送一个target为这个Handler的消息，实际上已经发送的消息包含一个Handler实例的引用。 由于在Java中，非静态内部类或匿名的内部类会持有期外部类的引用，因此其Handler对象会持有Activity的引用。分析一下上面的代码，当我们执行了Activity的finish方法，被延迟的消息会在被处理之前存在于主线程消息队列中10分钟，而这个消息中又包含了Handler的引用，而Handler是一个匿名内部类的实例，其持有外面的SampleActivity的引用，所以这导致了SampleActivity无法回收，进行导致SampleActivity持有的很多资源都无法回收，这就是我们常说的内存泄露。
+当一个Handler在主线程进行初始化之后，我们发送一个target为这个Handler的消息，实际上已经发送的消息包含一个Handler实例的引用。 由于在Java中，非静态内部类或匿名的内部类会持有其外部类的引用，因此其Handler对象会持有Activity的引用。分析一下上面的代码，当我们执行了Activity的finish方法，被延迟的消息会在被处理之前存在于主线程消息队列中10分钟，而这个消息中又包含了Handler的引用，而Handler是一个匿名内部类的实例，其持有外面的SampleActivity的引用，所以这导致了SampleActivity无法回收，进行导致SampleActivity持有的很多资源都无法回收，这就是我们常说的内存泄露。
 
 2.单例模式使用Activity的Context
 
@@ -175,7 +175,7 @@ public static AppManager getInstance(Context context) {
 
 # 参考
 
-* [Java内存区域模型、对象创建过程、常见OOM  
+* [Java内存区域模型、对象创建过程、常见OOM
  ](http://blog.csdn.net/shakespeare001/article/details/51732155)
 * [Android 内存泄漏总结](https://github.com/GeniusVJR/LearningNotes/blob/master/Part1/Android/Android%E5%86%85%E5%AD%98%E6%B3%84%E6%BC%8F%E6%80%BB%E7%BB%93.md)
 * [Jvm内存模型](http://gityuan.com/2016/01/09/java-memory/)
