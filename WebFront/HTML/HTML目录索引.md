@@ -6,3 +6,4 @@
 * [localStorage与sessionStorage](/WebFront/HTML/localStorage与sessionStorage.md)
 * [移动端适配](/WebFront/HTML/移动端适配.md)
 * [H5混合开发问题总结](/WebFront/HTML/H5混合开发问题总结.md)
+* [DOM的事件总结](/WebFront/HTML/DOM的事件总结.md)
