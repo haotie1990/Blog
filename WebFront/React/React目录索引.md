@@ -9,3 +9,4 @@
 * [React.js 小书](http://huziketang.com/books/react/)
 * [Redux:百行代码千行文档](https://juejin.im/post/5930a1bdfe88c2006198bdf0)
 * [React Mixins入门指南](https://juejin.im/post/58d47ea944d904006861f0b6)
+* [React的8种条件渲染方法](https://juejin.im/post/5ab0bff06fb9a028d444696b)
