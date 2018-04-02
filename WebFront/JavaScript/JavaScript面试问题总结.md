@@ -27,6 +27,17 @@
 
 [Event Loop 必知必会（六道题）](https://zhuanlan.zhihu.com/p/34182184)
 
+##### 11.AJAX的``readystate``的状态？
+
+|readystate code | 说明 |
+|--|--|
+|0：uninitialized（未初始化）|the object has been created but not initialized.(the open method has not be called);(``XMLHttpRequest``)对象已经创建，但尚未初始化（open方法也未被调用）|
+|1：loading（载入）|the object has been created,but the send method has not been called.(``XMLHttpRequest``)对象已经创建，但尚未调用``send``方法|
+|2：loaded（载入完成）|the send method has been called,but the status and headers are not yet available.``send``方法已经被调用|
+|3：interactive（交互）|some data has been received,calling the responseBody and responseText properties at this state to obtai partial results will return an error,because status and response headers are not fully available.|
+|4：completed（完成）|all the data has been received,and the complete data is available in the responseBody and responseText properties.|
+
 ### 参考
 
 * [前端回忆录-前端面试](https://github.com/Wscats/Good-Text-Share#%E5%89%8D%E7%AB%AF%E9%9D%A2%E8%AF%95)
+* [readyState的五种状态](https://blog.csdn.net/allen19901008/article/details/38680857)
