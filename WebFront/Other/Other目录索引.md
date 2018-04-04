@@ -7,3 +7,4 @@
 * [深入浅出Webpackage](/WebFront/Other/深入浅出Webpackage.md)
 * [网站性能优化总结](/WebFront/Other/网站性能优化总结.md)
 * [HTTP协议冷知识大全](https://mp.weixin.qq.com/s/aekcsgLG6jZw3LeF3R9ssQ)
+* [浏览器缓存知识小结及应用](http://www.cnblogs.com/lyzg/p/5125934.html)
