@@ -23,6 +23,8 @@
 
 ##### 8.javascript实现快速排序？
 
+[归并排序与快速排序的简明实现及对比](https://juejin.im/post/5a2969656fb9a0452405bbb4?utm_medium=fe&utm_source=weixinqun)
+
 ##### 9.javascript实现二分查找？
 
 ##### 10.event loop？
@@ -31,7 +33,7 @@
 
 ##### 11.AJAX的``readystate``的状态？
 
-|readystate code | 说明 |
+|readystate code | 说明 | 
 |--|--|
 |0：uninitialized（未初始化）|the object has been created but not initialized.(the open method has not be called);(``XMLHttpRequest``)对象已经创建，但尚未初始化（open方法也未被调用）|
 |1：loading（载入）|the object has been created,but the send method has not been called.(``XMLHttpRequest``)对象已经创建，但尚未调用``send``方法|
