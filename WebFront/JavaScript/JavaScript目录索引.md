@@ -13,4 +13,5 @@
 * [常用工具方法总结，打造自己的Utils库](/WebFront/JavaScript/常用工具方法总结.md)
 * [正则表达式总结](/WebFront/JavaScript/正则表达式总结.md)
 * [走进Promise](/WebFront/JavaScript/走进Promise.md)
+* [Await和Async](/WebFront/JavaScript/Await和Async.md)
 * [破解前端面试（80% 应聘者不及格系列）：从 闭包说起](https://zhuanlan.zhihu.com/p/25855075)
