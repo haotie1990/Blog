@@ -4,11 +4,15 @@
 
 ##### 2.标准盒模型和怪异盒模型的区别？
 
+[CSS盒模型详解](https://juejin.im/post/59ef72f5f265da4320026f76?utm_medium=fe&utm_source=weixinqun)
+
 ##### 3.CSS3中有哪些新增属性？
 
 ##### 4.垂直居中有那些方法？
 
 ##### 5.什么是BFC，BFC有什么用？
+
+[BFC模型浅识](https://juejin.im/post/5a0ab4326fb9a045211e3926)
 
 ##### 6.水平居中有哪些方法？
 

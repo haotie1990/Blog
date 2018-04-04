@@ -44,3 +44,4 @@
 * [前端回忆录-前端面试](https://github.com/Wscats/Good-Text-Share#%E5%89%8D%E7%AB%AF%E9%9D%A2%E8%AF%95)
 * [readyState的五种状态](https://blog.csdn.net/allen19901008/article/details/38680857)
 * [一道常被人轻视的前端JS面试题](http://www.cnblogs.com/xxcanghai/p/5189353.html)
+* [带你理解 JS 容易出错的坑和细节](https://juejin.im/post/59f54321f265da43085d4a7f?utm_medium=fe&utm_source=weixinqun)
