@@ -12,6 +12,8 @@
 
 [Javascript中的apply和call继承](https://github.com/Wscats/Good-text-Share/issues/56)
 
+[JavaScript深入之call和apply的模拟实现](https://juejin.im/post/5907eb99570c3500582ca23c)
+
 ##### 6.javascript的浅拷贝和深拷贝？
 
 [面试官:请你实现一个深克隆](https://juejin.im/post/5abb55ee6fb9a028e33b7e0a)
@@ -41,3 +43,4 @@
 
 * [前端回忆录-前端面试](https://github.com/Wscats/Good-Text-Share#%E5%89%8D%E7%AB%AF%E9%9D%A2%E8%AF%95)
 * [readyState的五种状态](https://blog.csdn.net/allen19901008/article/details/38680857)
+* [一道常被人轻视的前端JS面试题](http://www.cnblogs.com/xxcanghai/p/5189353.html)
