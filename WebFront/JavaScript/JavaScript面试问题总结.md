@@ -25,6 +25,8 @@
 
 [归并排序与快速排序的简明实现及对比](https://juejin.im/post/5a2969656fb9a0452405bbb4?utm_medium=fe&utm_source=weixinqun)
 
+[JS中可能用得到的全部的排序算法](https://juejin.im/entry/5a0a86d15188257bfe455cba?utm_medium=fe&utm_source=weixinqun)
+
 ##### 9.javascript实现二分查找？
 
 ##### 10.event loop？
