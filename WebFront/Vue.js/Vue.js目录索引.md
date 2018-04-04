@@ -8,3 +8,5 @@
 * [Vue的diff算法](/WebFront/Vue.js/Vue的diff算法.md)
 * [Vue组件开发](/WebFront/Vue.js/Vue组件开发.md)
 * [双向数据绑定](/WebFront/Vue.js/双向数据绑定.md)
+* [Vue.js源码分析](https://github.com/answershuto/learnVue#源码相关)
+* [从template到DOM(Vue.js源码角度看内部运行机制)](https://juejin.im/post/59e352f06fb9a0452935cc1a)
