@@ -9,3 +9,4 @@
 * [DOM的事件总结](/WebFront/HTML/DOM的事件总结.md)
 * [如何写出高效率的HTML](https://segmentfault.com/a/1190000002680822)
 * [深入理解HTML5标签](https://segmentfault.com/a/1190000002695791)
+* [HTML5 indexedDB前端本地存储数据库实例教程](http://www.zhangxinxu.com/wordpress/2017/07/html5-indexeddb-js-example/)
