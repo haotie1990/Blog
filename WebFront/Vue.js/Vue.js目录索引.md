@@ -11,3 +11,4 @@
 * [Vue.js源码分析](https://github.com/answershuto/learnVue#源码相关)
 * [从template到DOM(Vue.js源码角度看内部运行机制)](https://juejin.im/post/59e352f06fb9a0452935cc1a)
 * [Vue2原理浅谈](http://imhjm.com/article/59b902107dd03248a2e8d584)
+* [走进Vue-cli源码，自己动手搭建前端脚手架工具](https://segmentfault.com/a/1190000013975247)
