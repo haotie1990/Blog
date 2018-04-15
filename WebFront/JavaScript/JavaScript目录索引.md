@@ -15,3 +15,4 @@
 * [走进Promise](/WebFront/JavaScript/走进Promise.md)
 * [Await和Async](/WebFront/JavaScript/Await和Async.md)
 * [破解前端面试（80% 应聘者不及格系列）：从 闭包说起](https://zhuanlan.zhihu.com/p/25855075)
+* [认识 TypeScript](http://taobaofed.org/blog/2017/03/09/head-first-typescript/)
