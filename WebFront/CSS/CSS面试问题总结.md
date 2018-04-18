@@ -14,6 +14,8 @@
 
 [BFC模型浅识](https://juejin.im/post/5a0ab4326fb9a045211e3926)
 
+[10 分钟理解 BFC 原理](https://zhuanlan.zhihu.com/p/25321647)
+
 ##### 6.水平居中有哪些方法？
 
 ##### 7.什么是外边距折叠（Collapsing margins）？
