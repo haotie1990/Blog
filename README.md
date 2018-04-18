@@ -2,6 +2,8 @@
 
 以前少有写过东西，现在回想起来实在是失败，知识的积累不应该在于看过多少遍，重点应该在于能及时的融会贯通，我相信把自己看过学过的东西记录下来是一个非常好的方法。这个工程不是什么代码工程，只是为了记录个人读书学习的一些总结。
 
+工作忙了起来，很多时候没有时间去总结，但现在这个时代是最不缺少资源的时代，因此后面增加了一下在网上看到的好的文章链接（侵删）
+
 ## 目录
 
 * [前端](/WebFront/前端目录索引.md)
@@ -37,9 +39,9 @@
         * [正则表达式总结](/WebFront/JavaScript/正则表达式总结.md)
         * [走进Promise](/WebFront/JavaScript/走进Promise.md)
         * [Await和Async](/WebFront/JavaScript/Await和Async.md)
-        * [破解前端面试（80% 应聘者不及格系列）：从 闭包说起](https://zhuanlan.zhihu.com/p/25855075)
+        * [【转】破解前端面试（80% 应聘者不及格系列）：从 闭包说起](https://zhuanlan.zhihu.com/p/25855075)
     * [Vue.js](/WebFront/Vue.js/Vue.js目录索引.md)
-        * [Vue中文文档](http://doc.vue-js.com/)
+        * [【转】Vue中文文档](http://doc.vue-js.com/)
         * [Vue-i18n的国际化之路](/WebFront/Vue.js/Vue-i18n的国际化之路.md)
         * [Vue Router](/WebFront/Vue.js/VueRouter.md)
         * [Vue Router的权限路由管理](/WebFront/Vue.js/VueRouter的权限路由管理.md)
@@ -54,21 +56,21 @@
         * [Redux还是Mobx](/WebFront/React/Redux还是Mobx.md)
         * [如何实现React项目的国际化](/WebFront/React/如何实现React项目的国际化.md)
         * [掌握高阶组件](/WebFront/React/掌握高阶组件.md)
-        * [setState](/WebFront/React/setState.md)
-        * [React.js 小书](http://huziketang.com/books/react/)
-        * [Redux:百行代码千行文档](https://juejin.im/post/5930a1bdfe88c2006198bdf0)
-        * [React Mixins入门指南](https://juejin.im/post/58d47ea944d904006861f0b6)
-        * [React的8种条件渲染方法](https://juejin.im/post/5ab0bff06fb9a028d444696b)
-        * [React 概念模型——脱离React谈谈它的设计思想](https://segmentfault.com/a/1190000005159165)
+        * [【转】setState](/WebFront/React/setState.md)
+        * [【转】React.js 小书](http://huziketang.com/books/react/)
+        * [【转】Redux:百行代码千行文档](https://juejin.im/post/5930a1bdfe88c2006198bdf0)
+        * [【转】React Mixins入门指南](https://juejin.im/post/58d47ea944d904006861f0b6)
+        * [【转】React的8种条件渲染方法](https://juejin.im/post/5ab0bff06fb9a028d444696b)
+        * [【转】React 概念模型——脱离React谈谈它的设计思想](https://segmentfault.com/a/1190000005159165)
     * [Other](/WebFront/Other/Other目录索引.md)
-        * [JSBridge的原理](https://juejin.im/post/5abca877f265da238155b6bc)
+        * [【转】JSBridge的原理](https://juejin.im/post/5abca877f265da238155b6bc)
         * [前端安全问题总结](/WebFront/Other/前端安全问题总结.md)
         * [NPM和Package.json](/WebFront/Other/NPM和package.json.md)
         * [微信小程序那点事](/WebFront/Other/微信小程序那点事.md)
         * [深入浅出Webpackage](/WebFront/Other/深入浅出Webpackage.md)
         * [网站性能优化总结](/WebFront/Other/网站性能优化总结.md)
-        * [HTTP协议冷知识大全](https://mp.weixin.qq.com/s/aekcsgLG6jZw3LeF3R9ssQ)
-        * [浏览器缓存知识小结及应用](http://www.cnblogs.com/lyzg/p/5125934.html)
+        * [【转】HTTP协议冷知识大全](https://mp.weixin.qq.com/s/aekcsgLG6jZw3LeF3R9ssQ)
+        * [【转】浏览器缓存知识小结及应用](http://www.cnblogs.com/lyzg/p/5125934.html)
 
 * [Android](/Android/Android目录索引.md)
 
@@ -97,4 +99,5 @@
     * [Android再学习计划](README.md)
     * [Glibc的升级安装过程](Other/Glibc的升级安装过程.md)
     * [面试预案](Other/面试预案.md)
-    * [TCP协议疑难杂症全景分析](https://blog.csdn.net/zhangqi_gsts/article/details/50433096)
+    * [【转】TCP协议疑难杂症全景分析](https://blog.csdn.net/zhangqi_gsts/article/details/50433096)
+    * [【转】工程师如何在工作中提升自己?](https://zhuanlan.zhihu.com/p/35608666?utm_source=com.daimajia.gold&utm_medium=social&utm_member=M2EyY2QzMDVlNWI3OGIzMmI0ZWYzODFjNzM3ZWEzYjQ=)
