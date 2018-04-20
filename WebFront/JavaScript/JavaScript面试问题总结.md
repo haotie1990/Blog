@@ -49,3 +49,4 @@
 * [readyState的五种状态](https://blog.csdn.net/allen19901008/article/details/38680857)
 * [一道常被人轻视的前端JS面试题](http://www.cnblogs.com/xxcanghai/p/5189353.html)
 * [带你理解 JS 容易出错的坑和细节](https://juejin.im/post/59f54321f265da43085d4a7f?utm_medium=fe&utm_source=weixinqun)
+* [关于Object的getter和setter](https://zhuanlan.zhihu.com/p/25672454?utm_source=wechat_session&amp;utm_medium=social)
