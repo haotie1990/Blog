@@ -103,3 +103,4 @@
     * [【转】分分钟让你理解HTTPS](https://juejin.im/post/5ad6ad575188255c272273c4)
     * [【转】TCP协议疑难杂症全景分析](https://blog.csdn.net/zhangqi_gsts/article/details/50433096)
     * [【转】工程师如何在工作中提升自己?](https://zhuanlan.zhihu.com/p/35608666?utm_source=com.daimajia.gold&utm_medium=social&utm_member=M2EyY2QzMDVlNWI3OGIzMmI0ZWYzODFjNzM3ZWEzYjQ=)
+    * [【转】程序员技能图谱](https://github.com/TeamStuQ/skill-map#%E7%A8%8B%E5%BA%8F%E5%91%98%E6%8A%80%E8%83%BD%E5%9B%BE%E8%B0%B1)
