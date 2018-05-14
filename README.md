@@ -93,6 +93,9 @@
 
     * [RxJava使用指南](/Java/RxJava.md)
 
+* [数据结构](/DataStructure/Datastructure.md)
+    * [【转】坐在马桶上看算法：快速排序](http://developer.51cto.com/art/201403/430986.htm)
+
 * [Othrer](/Other/Other目录索引.md)
 
     * [Markdown操作手册](Other/Markdown操作手册.md)
