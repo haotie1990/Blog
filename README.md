@@ -74,6 +74,7 @@
         * [【转】HTTP协议冷知识大全](https://mp.weixin.qq.com/s/aekcsgLG6jZw3LeF3R9ssQ)
         * [【转】浏览器缓存知识小结及应用](http://www.cnblogs.com/lyzg/p/5125934.html)
         * [【转】移动端真机调试指南](https://aotu.io/notes/2017/02/24/Mobile-debug/)
+        * [【转】网站性能优化实战——从12.67s到1.06s的故事](https://juejin.im/post/5b0b7d74518825158e173a0c?utm_source=gold_browser_extension)
 
 * [Android](/Android/Android目录索引.md)
 
