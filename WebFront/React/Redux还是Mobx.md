@@ -8,3 +8,4 @@
 * [Redux 异步数据流方案对比](https://juejin.im/post/59e6cd68f265da43163c2821)
 * [你需要Mobx还是Redux？](http://blog.codingplayboy.com/2018/02/11/mobx-vs-redux/)
 * [【转】解读Mobx及与redux的对比](https://zhuanlan.zhihu.com/p/36294638)
+* [【转】MobX vs Redux: Comparing the Opposing Paradigms - React Conf 2017 纪要](https://zhuanlan.zhihu.com/p/25989654)
