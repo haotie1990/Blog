@@ -24,3 +24,11 @@
 * ``<script>``：HTML解析中断，脚步被提取并立即执行。执行结束后，HTML解析继续
 * ``<script async>``：脚步的提取与解析过程，和HTML的解析过程并行。脚本执行完毕后可能在HTML解析完成之前，当脚步与页面其他脚本独立时，可以使用``async``，比如统计分析类的脚本
 * ``<script defer>``：脚本仅提取过程与HTML解析过程并行，脚步的执行将在HTML解析完成后进行。如果有多个``defer``的脚本，脚本的执行顺序将按照其在文档中的出现顺序，从上到下进行
+
+##### 4.`clientHeight`,`scrollHeight`,`offsetHeight`,以及`scrollTop`, `offsetTop`,`clientTop`的区别？
+
+* clientHeight：表示的是可视区域的高度，不包含border和滚动条
+* offsetHeight：表示可视区域的高度，包含了border和滚动条
+* scrollHeight：表示了所有区域的高度，包含了因为滚动被隐藏的部分。
+* clientTop：表示边框border的厚度，在未指定的情况下一般为0
+* scrollTop：滚动后被隐藏的高度，获取对象相对于由offsetParent属性指定的父坐标(css定位的元素或body元素)距离顶端的高度。
