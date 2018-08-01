@@ -67,6 +67,7 @@
         * [【转】从零开始React服务器渲染](http://www.alloyteam.com/2017/01/react-from-scratch-server-render/)
         * [【转】React v16.3之后的组件生命周期函数](https://zhuanlan.zhihu.com/p/38030418)
         * [【转】React 学习路线图](https://github.com/SangKa/react-roadmap)
+        * [【转】create-react-app 修改为多入口编译](https://segmentfault.com/a/1190000015837055)
     * [Other](/WebFront/Other/Other目录索引.md)
         * [【转】JSBridge的原理](https://juejin.im/post/5abca877f265da238155b6bc)
         * [前端安全问题总结](/WebFront/Other/前端安全问题总结.md)
@@ -79,6 +80,7 @@
         * [【转】移动端真机调试指南](https://aotu.io/notes/2017/02/24/Mobile-debug/)
         * [【转】网站性能优化实战——从12.67s到1.06s的故事](https://juejin.im/post/5b0b7d74518825158e173a0c?utm_source=gold_browser_extension)
         * [【转】前端精读](https://github.com/dt-fe/weekly/blob/master/readme.md)
+        * [【转】H5页面二次分享](https://segmentfault.com/a/1190000015815478)
 
 * [Android](/Android/Android目录索引.md)
 
