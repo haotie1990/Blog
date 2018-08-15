@@ -42,6 +42,8 @@
         * [Await和Async](/WebFront/JavaScript/Await和Async.md)
         * [【转】破解前端面试（80% 应聘者不及格系列）：从 闭包说起](https://zhuanlan.zhihu.com/p/25855075)
         * [【转】关于Object的getter和setter](https://zhuanlan.zhihu.com/p/25672454?utm_source=wechat_session&amp;utm_medium=social)
+        * [【转】前端组件化设计思路](http://ijser.cn/2017-06-25-web-component-design-in-front-end/)
+        * [【转】JavaScript 事件委托详解](https://zhuanlan.zhihu.com/p/26536815)
     * [Vue.js](/WebFront/Vue.js/Vue.js目录索引.md)
         * [【转】Vue中文文档](http://doc.vue-js.com/)
         * [Vue-i18n的国际化之路](/WebFront/Vue.js/Vue-i18n的国际化之路.md)
@@ -68,6 +70,7 @@
         * [【转】React v16.3之后的组件生命周期函数](https://zhuanlan.zhihu.com/p/38030418)
         * [【转】React 学习路线图](https://github.com/SangKa/react-roadmap)
         * [【转】Styled-Components](https://segmentfault.com/a/1190000014682665)
+        * [【转】create-react-app 修改为多入口编译](https://segmentfault.com/a/1190000015837055)
     * [Other](/WebFront/Other/Other目录索引.md)
         * [【转】JSBridge的原理](https://juejin.im/post/5abca877f265da238155b6bc)
         * [前端安全问题总结](/WebFront/Other/前端安全问题总结.md)
@@ -80,6 +83,7 @@
         * [【转】移动端真机调试指南](https://aotu.io/notes/2017/02/24/Mobile-debug/)
         * [【转】网站性能优化实战——从12.67s到1.06s的故事](https://juejin.im/post/5b0b7d74518825158e173a0c?utm_source=gold_browser_extension)
         * [【转】前端精读](https://github.com/dt-fe/weekly/blob/master/readme.md)
+        * [【转】H5页面二次分享](https://segmentfault.com/a/1190000015815478)
 
 * [Android](/Android/Android目录索引.md)
 
