@@ -44,6 +44,7 @@
         * [【转】关于Object的getter和setter](https://zhuanlan.zhihu.com/p/25672454?utm_source=wechat_session&amp;utm_medium=social)
         * [【转】前端组件化设计思路](http://ijser.cn/2017-06-25-web-component-design-in-front-end/)
         * [【转】JavaScript 事件委托详解](https://zhuanlan.zhihu.com/p/26536815)
+        * [【转】从promise、process.nextTick、setTimeout出发，谈谈Event Loop中的Job queue](https://github.com/forthealllight/blog/issues/5)
     * [Vue.js](/WebFront/Vue.js/Vue.js目录索引.md)
         * [【转】Vue中文文档](http://doc.vue-js.com/)
         * [Vue-i18n的国际化之路](/WebFront/Vue.js/Vue-i18n的国际化之路.md)
