@@ -17,6 +17,7 @@
         * [H5混合开发问题总结](/WebFront/HTML/H5混合开发问题总结.md)
         * [DOM的事件总结](/WebFront/HTML/DOM的事件总结.md)
         * [【转】理解DOM](https://www.w3cplus.com/javascript/understanding-the-dom.html)
+        * [【转】Html5语义化标签的启示](https://www.jianshu.com/p/3d43727e04a5)
     * [CSS](/WebFront/CSS/CSS目录索引.md)
         * [CSS 面试问题总结](/WebFront/CSS/CSS面试问题总结.md)
         * [CSS Flex使用](/WebFront/CSS/CSS3Flex使用.md)
