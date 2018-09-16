@@ -87,6 +87,9 @@
         * [【转】网站性能优化实战——从12.67s到1.06s的故事](https://juejin.im/post/5b0b7d74518825158e173a0c?utm_source=gold_browser_extension)
         * [【转】前端精读](https://github.com/dt-fe/weekly/blob/master/readme.md)
         * [【转】H5页面二次分享](https://segmentfault.com/a/1190000015815478)
+        * [【转】2016各大互联网公司前端面试题汇总](https://www.jackpu.com/2016ge-da-hu-lian-wang-gong-si-qian-duan-mian-shi-ti-hui-zong/)
+        * [【转】关于前端常见算法面试题的一些思考](http://www.wemlion.com/post/front-end-interview-algo-questions/)
+        * [【转】一道常被人轻视的前端JS面试题](http://www.cnblogs.com/xxcanghai/p/5189353.html)
 
 * [Android](/Android/Android目录索引.md)
 
