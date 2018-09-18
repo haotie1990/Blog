@@ -56,6 +56,8 @@
         * [【转】如何编写高质量的函数 -- 函数底层篇](https://mp.weixin.qq.com/s?src=11&timestamp=1550978770&ver=1447&signature=h1yXFEhMjjj6Fgg7mPYCmuyuzIWZv9hC-bkvX6VDge5r5KiYuzIfVNk13UXn-dFiOwDqNEyWvIWbv1--voqAJU6Gks9kl4VvSPKDFLi6R60YiC8qllq03sHHJwgcd3d*&new=1)
         * [【转】探索JS引擎工作原理](http://www.cnblogs.com/onepixel/p/5090799.html)
         * [Algorithms and data structures implemented in JavaScript with explanations and links to further readings](https://github.com/trekhleb/javascript-algorithms)
+        * [【转】由ES规范学JavaScript(二)：深入理解“连等赋值”问题](https://segmentfault.com/a/1190000004224719)
+        * [【转】JS中的加号+运算符详解](https://www.cnblogs.com/MasterYao/p/7783004.html)
     * [Vue.js](/WebFront/Vue.js/Vue.js目录索引.md)
         * [【转】Vue中文文档](http://doc.vue-js.com/)
         * [Vue-i18n的国际化之路](/WebFront/Vue.js/Vue-i18n的国际化之路.md)
