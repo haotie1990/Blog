@@ -91,6 +91,8 @@
         * [【转】关于前端常见算法面试题的一些思考](http://www.wemlion.com/post/front-end-interview-algo-questions/)
         * [【转】一道常被人轻视的前端JS面试题](http://www.cnblogs.com/xxcanghai/p/5189353.html)
         * [前端面试](/WebFront/前端面试.md)
+        * [【转】认识 V8 引擎](https://zhuanlan.zhihu.com/p/27628685)
+        * [【转】JavaScript 是如何工作的：在 V8 引擎里 5 个优化代码的技巧](https://zhuanlan.zhihu.com/p/37354452)
 
 * [Android](/Android/Android目录索引.md)
 
