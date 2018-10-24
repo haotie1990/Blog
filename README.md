@@ -93,6 +93,7 @@
         * [前端面试](/WebFront/前端面试.md)
         * [【转】认识 V8 引擎](https://zhuanlan.zhihu.com/p/27628685)
         * [【转】JavaScript 是如何工作的：在 V8 引擎里 5 个优化代码的技巧](https://zhuanlan.zhihu.com/p/37354452)
+        * [闭包、对象，以及堆“族”](https://www.zcfy.cc/article/closures-objects-and-the-fauna-of-the-heap)
 
 * [Android](/Android/Android目录索引.md)
 
