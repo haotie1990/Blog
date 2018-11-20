@@ -46,6 +46,7 @@
         * [【转】前端组件化设计思路](http://ijser.cn/2017-06-25-web-component-design-in-front-end/)
         * [【转】JavaScript 事件委托详解](https://zhuanlan.zhihu.com/p/26536815)
         * [【转】从promise、process.nextTick、setTimeout出发，谈谈Event Loop中的Job queue](https://github.com/forthealllight/blog/issues/5)
+        * [「译」理解JavaScript的柯里化](https://juejin.im/post/5bf18715e51d45244939acc5)
         * [由ES规范学JavaScript(二)：深入理解“连等赋值”问题](https://segmentfault.com/a/1190000004224719)
     * [Vue.js](/WebFront/Vue.js/Vue.js目录索引.md)
         * [【转】Vue中文文档](http://doc.vue-js.com/)
