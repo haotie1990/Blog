@@ -139,3 +139,4 @@
     * [Android面试预案](Other/Android面试预案.md)
     * [Github面试题](https://www.itcodemonkey.com/article/8340.html)
     * [互联网公司技术架构](https://github.com/davideuler/architecture.of.internet-product)
+    * [HTTP协议详解（真的很经典）](http://www.cnblogs.com/li0803/archive/2008/11/03/1324746.html)
