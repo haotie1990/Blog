@@ -85,6 +85,7 @@
         * [网站性能优化总结](/WebFront/Other/网站性能优化总结.md)
         * [【转】HTTP协议冷知识大全](https://mp.weixin.qq.com/s/aekcsgLG6jZw3LeF3R9ssQ)
         * [【转】浏览器缓存知识小结及应用](http://www.cnblogs.com/lyzg/p/5125934.html)
+        * [【Web缓存机制系列】1 – Web缓存的作用与类型](http://www.alloyteam.com/2012/03/web-cache-1-web-cache-overview/)
         * [【转】移动端真机调试指南](https://aotu.io/notes/2017/02/24/Mobile-debug/)
         * [【转】网站性能优化实战——从12.67s到1.06s的故事](https://juejin.im/post/5b0b7d74518825158e173a0c?utm_source=gold_browser_extension)
         * [【转】前端精读](https://github.com/dt-fe/weekly/blob/master/readme.md)
