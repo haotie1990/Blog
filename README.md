@@ -100,6 +100,7 @@
         * [2018 大厂高级前端面试题汇总](https://mp.weixin.qq.com/s/biVa8Wvg82uvTd5C0yerug)
         * [图解浏览器的工作原理（史上最全）](https://mp.weixin.qq.com/s/X4yAFZBNLwaDUFYaR0Cn5g)
         * [JavaScript vs. TypeScript vs. ReasonML](http://2ality.com/2018/03/javascript-typescript-reasonml.html)
+        * [前端黑科技：美团网页首帧优化实践](https://juejin.im/post/5bee7dd4e51d451f5b54cbb4)
 
 * [Android](/Android/Android目录索引.md)
 
