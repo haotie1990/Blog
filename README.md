@@ -154,3 +154,4 @@
     * [Dev on Windows with WSL](https://spencerwoo.com/2018/10/01/WSL/)
     * [需求分析与开发时间评估](https://github.com/berwin/Blog/issues/40)
     * [码农周刊 - 史上最全的编程学习资料合集（持续更新）](https://github.com/toutiaoio/weekly.manong.io)
+    * [用JS开发跨平台桌面应用，从原理到实践](https://mp.weixin.qq.com/s/owtLBHgpzXqbJs3P1mjmLA)
