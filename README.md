@@ -153,3 +153,4 @@
     * [HTTP协议详解（真的很经典）](http://www.cnblogs.com/li0803/archive/2008/11/03/1324746.html)
     * [Dev on Windows with WSL](https://spencerwoo.com/2018/10/01/WSL/)
     * [需求分析与开发时间评估](https://github.com/berwin/Blog/issues/40)
+    * [码农周刊 - 史上最全的编程学习资料合集（持续更新）](https://github.com/toutiaoio/weekly.manong.io)
