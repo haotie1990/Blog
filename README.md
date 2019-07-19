@@ -159,3 +159,4 @@
     * [JS开发常用工具函数](https://segmentfault.com/a/1190000019601333)
     * [每天搞定一道前端大厂面试题](https://github.com/Advanced-Frontend/Daily-Interview-Question)
     * [大迁世界-博客](https://github.com/qq449245884/xiaozhi)
+    * [宇宙最强的前端面试指南](https://github.com/azl397985856/fe-interview)
