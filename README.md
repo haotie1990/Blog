@@ -161,3 +161,4 @@
     * [大迁世界-博客](https://github.com/qq449245884/xiaozhi)
     * [宇宙最强的前端面试指南](https://github.com/azl397985856/fe-interview)
     * [架构师技术图谱，助你早日成为架构师](https://github.com/toutiaoio/awesome-architecture?hmsr=toutiao.io&utm_medium=toutiao.io&utm_source=toutiao.io)
+    * [深入理解Node.js：核心思想与源码分析](https://github.com/yjhjstz/deep-into-node/blob/master/README.md?hmsr=toutiao.io&utm_medium=toutiao.io&utm_source=toutiao.io)
