@@ -26,6 +26,14 @@ Node.js可以说有四个特点：构建Web应用、高性能、可扩展、简�
 
 #### 3. Node.js环境与浏览器环境的区别
 
+|Browser|Node.js|
+|--|--|
+|全局对象window|全局对象process、console、buffer|
+|DOM操作、UI渲染|headless|
+|不同的JavaScript引擎|Chrome V8|
+|-|提供更丰富的API，如文件系统访问功能|
+|AMD、CMD、ES Model|模块系统CommonJS|
+
 #### 4. Node.js的CommonJS模块系统
 
 #### 5. Node.js的进程处理
