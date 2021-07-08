@@ -115,6 +115,7 @@
         * [轻松实现 Web 性能优化](https://juejin.im/post/5bf8ef7d51882517165daf99)
         * [前端监控知识点](https://github.com/RicardoCao-Biker/Front-End-Monitoring/blob/master/BasicKnowledge.md)
         * [【转】前端常见跨域解决方案（全）](https://segmentfault.com/a/1190000011145364)
+        * [“等一下，我碰！”——常见的2D碰撞检测](https://jelly.jd.com/article/6006b1045b6c6a01506c87dc)
 
 * [Android](/Android/Android目录索引.md)
 
