@@ -58,6 +58,7 @@
         * [Algorithms and data structures implemented in JavaScript with explanations and links to further readings](https://github.com/trekhleb/javascript-algorithms)
         * [【转】由ES规范学JavaScript(二)：深入理解“连等赋值”问题](https://segmentfault.com/a/1190000004224719)
         * [【转】JS中的加号+运算符详解](https://www.cnblogs.com/MasterYao/p/7783004.html)
+        * [【转】function与感叹号](https://swordair.com/function-and-exclamation-mark/)
     * [Vue.js](/WebFront/Vue.js/Vue.js目录索引.md)
         * [【转】Vue中文文档](http://doc.vue-js.com/)
         * [Vue-i18n的国际化之路](/WebFront/Vue.js/Vue-i18n的国际化之路.md)
