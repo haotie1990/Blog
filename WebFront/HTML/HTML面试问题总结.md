@@ -25,6 +25,8 @@
 * ``<script async>``：脚步的提取与解析过程，和HTML的解析过程并行。脚本执行完毕后可能在HTML解析完成之前，当脚步与页面其他脚本独立时，可以使用``async``，比如统计分析类的脚本
 * ``<script defer>``：脚本仅提取过程与HTML解析过程并行，脚步的执行将在HTML解析完成后进行。如果有多个``defer``的脚本，脚本的执行顺序将按照其在文档中的出现顺序，从上到下进行
 
+![whats-the-difference-between-async-vs-defer-attributes.jpeg](/Image/whats-the-difference-between-async-vs-defer-attributes.jpeg)
+
 [彻底搞懂 async & defer](https://github.com/xiaoyu2er/blog/issues/8)
 
 ##### 4.`clientHeight`,`scrollHeight`,`offsetHeight`,以及`scrollTop`, `offsetTop`,`clientTop`的区别？
