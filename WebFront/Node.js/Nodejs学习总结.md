@@ -36,7 +36,15 @@ Node.js可以说有四个特点：构建Web应用、高性能、可扩展、简�
 
 #### 4. Node.js的CommonJS模块系统
 
+[CommonJS规范](https://javascript.ruanyifeng.com/nodejs/module.html)
+[require加载器实现原理](https://juejin.cn/post/6949385808755294245)
+[前端科普系列（3）：CommonJS 不是前端却革命了前端](https://mp.weixin.qq.com/s/15sedEuUVTsgyUm1lswrKA)
+
 #### 5. Node.js的进程处理
+
+[深入理解Node.js 中的进程与线程](http://www.inode.club/node/processAndThread.html)
+[浅析 Node 进程与线程](https://www.zoo.team/article/node-process-thread)
+[Process 线程和进程](https://www.bookstack.cn/read/Nodejs-Roadmap/nodejs-process-threads.md)
 
 #### 6. Node.js的异步编程及EventLoop
 
