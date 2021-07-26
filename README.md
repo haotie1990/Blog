@@ -119,6 +119,7 @@
         * [前端监控知识点](https://github.com/RicardoCao-Biker/Front-End-Monitoring/blob/master/BasicKnowledge.md)
         * [【转】前端常见跨域解决方案（全）](https://segmentfault.com/a/1190000011145364)
         * [“等一下，我碰！”——常见的2D碰撞检测](https://jelly.jd.com/article/6006b1045b6c6a01506c87dc)
+        * [【转】这三年沉淀的前端错误监控系统，一篇文章讲透给你](https://mp.weixin.qq.com/s/NY72_cRGAPsex78YwVF_hg)
 
 * [Android](/Android/Android目录索引.md)
 
