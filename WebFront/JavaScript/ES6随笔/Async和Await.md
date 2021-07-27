@@ -4,7 +4,7 @@ async 函数是什么？一句话，它就是 Generator 函数的语法糖
 
 ## async对比Generator的改进
 
-### 1. 内置执行器
+### 1. 内置执行器
 
 Generator 函数的执行必须靠执行器，所以才有了co模块，而async函数自带执行器。
 
