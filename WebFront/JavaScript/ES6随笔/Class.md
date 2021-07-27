@@ -99,7 +99,7 @@ printName(); // TypeError: Cannot read property 'print' of undefined
 解决方法：
 1. 构造函数中绑定this
 2. 使用箭头函数
-3. 使用Proxy，获取方式时自动绑定实例
+3. 使用Proxy，获取方式时自动绑定实例
 
 ## 继承
 
